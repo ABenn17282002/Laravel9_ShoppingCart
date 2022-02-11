@@ -1,8 +1,11 @@
+
+{{-- view/component/tests/app.blade.php用コンポーネント--}}
 <x-tests.app>
     {{-- view/component/tests/app.blade.php用header--}}
     <x-slot name="header">
         コンポーネントテスト2Heaeder
     </x-slot>
-{{-- view/component/tests/app.blade.php用コンポーネント--}}
-コンポーネントテスト2
+    コンポーネントテスト2
+
+    <x-tests.card  title="Component2" content="Component2の本文"/>
 </x-tests.app>
