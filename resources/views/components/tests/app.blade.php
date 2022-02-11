@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{{-- layout/gust/blade.phpと同じ内容 --}}
+{{-- Headerの追加以外は,layout/gust/blade.phpと同じ内容 --}}
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -18,9 +18,14 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
+        {{-- headerの追加 --}}
+        <header>
+            {{ $header }}
+        </header>
+        {{-----------------}}
         <div class="font-sans text-gray-900 antialiased">
             {{-- view/test/component-test1・2.blade.php
-            →　components/tests/app.blade.php --}}
+            → components/tests/app.blade.php --}}
             {{ $slot }}
         </div>
     </body>
