@@ -7,5 +7,5 @@
     </x-slot>
     コンポーネントテスト2
 
-    <x-tests.card  title="Component2" content="Component2の本文"/>
+    <x-tests.card  title="Component2" content="Component2の本文" :messages="$messages"/>
 </x-tests.app>
