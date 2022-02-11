@@ -17,5 +17,7 @@
     <x-tests.card  title="CSSの変更" class="bg-green-400" />
 
     {{-- test-class-base.blade.phpの呼び出し --}}
-    <x-test-class-base />
+    <x-test-class-base classBaseMessage="メッセージ1"/>
+    <div class="mb-4"></div>
+    <x-test-class-base classBaseMessage="メッセージ2" defaultMessage="初期値より変更しています" />
 </x-tests.app>

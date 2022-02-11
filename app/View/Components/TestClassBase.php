@@ -6,14 +6,20 @@ use Illuminate\View\Component;
 
 class TestClassBase extends Component
 {
+    // public変数(制限なし)
+    public $classBaseMessage;
+    public $defaultMessage;
+
     /**
      * Create a new component instance.
      *<変数の設定>
      * @return void
      */
-    public function __construct()
+    public function __construct($classBaseMessage,$defaultMessage="初期値です")
     {
-        //
+        // クラスの各変数にアクセスし、引数の変数に格納
+        $this->classBaseMessage = $classBaseMessage;
+        $this->defaultMessage = $defaultMessage;
     }
 
     /**
