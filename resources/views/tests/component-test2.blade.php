@@ -15,4 +15,7 @@
 
     {{-- 属性:CSSの設定 --}}
     <x-tests.card  title="CSSの変更" class="bg-green-400" />
+
+    {{-- test-class-base.blade.phpの呼び出し --}}
+    <x-test-class-base />
 </x-tests.app>
