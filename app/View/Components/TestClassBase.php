@@ -17,7 +17,7 @@ class TestClassBase extends Component
      */
     public function __construct($classBaseMessage,$defaultMessage="初期値です")
     {
-        // Instanceからオブジェクトの変数にアクセスし、変数化
+        // クラスの各変数にアクセスし、引数の変数に格納
         $this->classBaseMessage = $classBaseMessage;
         $this->defaultMessage = $defaultMessage;
     }
