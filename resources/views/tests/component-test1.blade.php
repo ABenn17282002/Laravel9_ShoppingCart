@@ -12,4 +12,7 @@
 
     {{-- components/tests/card.blade.php -@props([])から呼び出し--}}
     <x-tests.card  title="Component1_title2" />
+
+    {{-- 属性:CSSの設定 --}}
+    <x-tests.card  title="CSSの変更" class="bg-red-400" />
 </x-tests.app>
