@@ -33,4 +33,7 @@ Route::get('/component-test2',[ComponentTestController::class, 'showComponent2']
 // ServiceContainer表示
 Route::get('/servicecontainertest',[LifeCycleTestController::class, 'showServiceContainerTest']);
 
+// ServiceProvider表示
+Route::get('/serviceprovidertest',[LifeCycleTestController::class, 'showServiceProviderTest']);
+
 require __DIR__.'/auth.php';
