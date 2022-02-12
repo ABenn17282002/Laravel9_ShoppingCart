@@ -14,8 +14,12 @@ class LifeCycleTestController extends Controller
         $encrypt = app()->make('encrypter');
         // PWの暗号化
         $password = $encrypt->encrypt('0457218138atyaba');
-        // 暗号化したPWの表示,PWの復号化
-        dd($password, $encrypt->decrypt($password));
+
+        // 作成したサンプルサービスプロバイダーの生成
+        $sample = app()->make('ServiceProviderTest');
+
+        // サンプルプロバイダー,暗号化したPWの表示,PWの復号化
+        dd($sample, $password, $encrypt->decrypt($password));
     }
 
     // Servicecontainerの利用を定義する関数
