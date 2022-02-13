@@ -45,6 +45,18 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // config/auth.phpのguard定義
+        // routeIsでそれぞれのルートか確認し,そのページへ飛ばす
+        if ($this->routeIs('owner.*')){
+            $guard = 'owners';
+        } elseif($this->routeIs('admin.*')){
+            $guard = 'admin';
+        } else {
+            $guard = 'users';
+        }
+
+        /* Login試行処理(Login用Guard)
+        詳細は: https://readouble.com/laravel/8.x/ja/authentication.html */
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
