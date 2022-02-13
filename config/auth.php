@@ -13,8 +13,9 @@ return [
     |
     */
 
+    // userモデルに編集(web->users)
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'users',
         'passwords' => 'users',
     ],
 
@@ -40,6 +41,28 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        /*----users,owner,admin用の認証Guardを追加----*/
+
+        // user用認証
+        'users' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        // owners用認証
+        'owners' => [
+            'driver' => 'session',
+            'provider' => 'owners',
+        ],
+
+        // 管理者用認証
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+
+        /*--------------------------------------------*/
     ],
 
     /*
@@ -64,6 +87,22 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        /*-----owner,admin用のClass使用についての定義を追加-----*/
+
+        // Owner用Provider
+        'owners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Owner::class,
+        ],
+
+        // Admin用Provider
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+
+        /*-----------------------------------------------------*/
 
         // 'users' => [
         //     'driver' => 'database',
@@ -93,6 +132,27 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        /*-----owner,adminのpassword設定用の定義を追加-----*/
+
+        // owner用
+        'owners' => [
+            'provider' => 'owners',
+            'table' => 'owner_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        // admin用
+        'admin' => [
+            'provider' => 'admin',
+            'table' => 'admin_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        /*-------------------------------------*/
+
     ],
 
     /*
