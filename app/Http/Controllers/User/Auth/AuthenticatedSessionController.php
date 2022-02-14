@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+// User\Auth
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -17,7 +18,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        // user用に編集
+        return view('user.auth.login');
     }
 
     /**
@@ -43,7 +45,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
+        // user用に編集
+        Auth::guard('users')->logout();
 
         $request->session()->invalidate();
 

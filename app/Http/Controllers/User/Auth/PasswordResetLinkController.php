@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+// User\Auth
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class PasswordResetLinkController extends Controller
      */
     public function create()
     {
-        return view('auth.forgot-password');
+        // user用に編集
+        return view('user.auth.forgot-password');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+// User\Auth
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
@@ -20,7 +21,8 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        return view('auth.reset-password', ['request' => $request]);
+        // user用に編集
+        return view('user.auth.reset-password', ['request' => $request]);
     }
 
     /**
@@ -58,7 +60,8 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
+                    // user用に編集
+                    ? redirect()->route('user.login')->with('status', __($status))
                     : back()->withInput($request->only('email'))
                             ->withErrors(['email' => __($status)]);
     }
