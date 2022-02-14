@@ -1,6 +1,6 @@
 <?php
 
-// Owner用クラスのインポート(後程作成)
+// 作成したOwner用クラスのインポート
 use App\Http\Controllers\Owner\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Owner\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Owner\Auth\EmailVerificationNotificationController;

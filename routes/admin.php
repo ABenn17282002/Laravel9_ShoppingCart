@@ -1,6 +1,6 @@
 <?php
 
-// Admin用クラスをインポート(後程作成)
+// 作成したAdmin用クラスをインポート
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
