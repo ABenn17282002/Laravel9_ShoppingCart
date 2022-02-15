@@ -17,7 +17,8 @@
         @endif
 
         <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
+            {{-- admin用に編集 --}}
+            <form method="POST" action="{{ route('admin.verification.send') }}">
                 @csrf
 
                 <div>
@@ -26,8 +27,8 @@
                     </x-button>
                 </div>
             </form>
-
-            <form method="POST" action="{{ route('logout') }}">
+            {{-- admin用に編集 --}}
+            <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
 
                 <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">

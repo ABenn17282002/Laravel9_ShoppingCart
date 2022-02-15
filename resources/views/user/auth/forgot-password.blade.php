@@ -1,3 +1,4 @@
+
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
@@ -16,7 +17,8 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('password.email') }}">
+        {{-- user用に編集 --}}
+        <form method="POST" action="{{ route('user.password.email') }}">
             @csrf
 
             <!-- Email Address -->
