@@ -31,8 +31,11 @@ Route::get('/dashboard', function () {
     return view('owner.dashboard');
 })->middleware(['auth:owners'])->name('dashboard');
 
+// auth.phpの引用+ownersモデル
+Route::get('/register', [RegisteredUserController::class, 'create'])
+                ->middleware('guest')
+                ->name('register');
 
-// auth.phpの引用
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest');
 
@@ -59,7 +62,6 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
                 ->middleware('guest')
                 ->name('password.update');
 
-// auth.phpの引用+ownersモデル
 Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->middleware('auth:owners')
                 ->name('verification.notice');

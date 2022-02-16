@@ -1,6 +1,5 @@
 <?php
-
-// Admin\Auth
+// admin用に編集
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
@@ -13,7 +12,7 @@ class EmailVerificationNotificationController extends Controller
      * Send a new email verification notification.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {

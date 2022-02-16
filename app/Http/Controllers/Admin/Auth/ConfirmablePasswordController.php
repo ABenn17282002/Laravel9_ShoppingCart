@@ -1,6 +1,5 @@
 <?php
-
-// Admin\Auth
+// admin用に編集
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
@@ -14,9 +13,10 @@ class ConfirmablePasswordController extends Controller
     /**
      * Show the confirm password view.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function show(Request $request)
     {
         // admin用に編集
         return view('admin.auth.confirm-password');
@@ -30,7 +30,6 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request)
     {
-        // admin用に編集
         if (! Auth::guard('admin')->validate([
             'email' => $request->user()->email,
             'password' => $request->password,

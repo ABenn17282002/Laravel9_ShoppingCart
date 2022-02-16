@@ -55,9 +55,9 @@ class LoginRequest extends FormRequest
             $guard = 'users';
         }
 
-        /* Login試行処理(Login用Guard)
+        /* Login試行処理(defaultではないためLogin用Guardの設置が必要)
         詳細は: https://readouble.com/laravel/8.x/ja/authentication.html */
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

@@ -1,6 +1,5 @@
 <?php
-
-// Admin/Auth
+// admin用に編集
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
@@ -34,7 +33,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // admin用に編集
         return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
     }
 
@@ -57,3 +55,4 @@ class AuthenticatedSessionController extends Controller
         return redirect('/admin');
     }
 }
+

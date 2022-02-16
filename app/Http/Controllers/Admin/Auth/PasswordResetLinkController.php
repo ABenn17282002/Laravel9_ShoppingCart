@@ -1,6 +1,5 @@
 <?php
-
-// Admin\Auth
+// admin用に編集
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
@@ -31,7 +30,7 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'email' => 'required|email',
         ]);
 
         // We will send the password reset link to this user. Once we have attempted
