@@ -1,6 +1,6 @@
 <?php
 
-// Admin用クラスをインポート(後程作成)
+// 作成したAdmin用クラスをインポート
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -32,7 +32,11 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
 
-// auth.phpの引用
+// auth.phpの引用+Adminモデル
+Route::get('/register', [RegisteredUserController::class, 'create'])
+                ->middleware('guest')
+                ->name('register');
+
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest');
 
@@ -59,7 +63,6 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
                 ->middleware('guest')
                 ->name('password.update');
 
-// auth.phpの引用+Adminモデル
 Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->middleware('auth:admin')
                 ->name('verification.notice');
