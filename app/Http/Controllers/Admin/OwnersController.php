@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Owner;  // Eloquent エロクアント
+use Illuminate\Support\Facades\DB; // QueryBuilder クエリービルダー
 
 class OwnersController extends Controller
 {
@@ -23,7 +25,24 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        dd("オーナー一覧");
+        // OwnerのDataを全て取得
+        $e_all = Owner::all();
+
+        // Owner_tableからname列のみを取得する
+        $q_get = DB::table('owners')->select('name')->get();
+
+        // Owner_tableからname列の最初のみを取得する object(stdClass)
+        $q_first = DB::table('owners')->select('name')->first();
+
+        // 配列
+        $c_test = \collect([
+            'name' =>'testname'
+        ]);
+
+        // debug
+        var_dump($q_first);
+
+        dd($e_all, $q_get, $q_first, $c_test);
     }
 
     /**
