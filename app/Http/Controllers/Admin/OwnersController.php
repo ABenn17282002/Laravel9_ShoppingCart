@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Owner;  // Eloquent エロクアント
 use Illuminate\Support\Facades\DB; // QueryBuilder クエリービルダー
+use Carbon\Carbon;   // 日付を扱うクラス
 
 class OwnersController extends Controller
 {
@@ -25,24 +26,24 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        // OwnerのDataを全て取得
-        $e_all = Owner::all();
+        /* Carbon(日付を扱うクラス)
+        https://coinbaby8.com/carbon-laravel.html */
 
-        // Owner_tableからname列のみを取得する
-        $q_get = DB::table('owners')->select('name')->get();
+        // 現在時刻表示
+        $date_now = Carbon::now();
+        $date_parse = Carbon::parse(now());
 
-        // Owner_tableからname列の最初のみを取得する object(stdClass)
-        $q_first = DB::table('owners')->select('name')->first();
+        // 年
+        echo $date_now->year;
+        echo "<br>";
 
-        // 配列
-        $c_test = \collect([
-            'name' =>'testname'
-        ]);
+        // 現在時刻を表示
+        echo $date_parse;
+        echo "<br>";
 
-        // debug
-        var_dump($q_first);
-
-        dd($e_all, $q_get, $q_first, $c_test);
+        // Format ****年**月**日
+        echo $date_now ->format('Y年m月d日');
+        echo "<br>";
     }
 
     /**
