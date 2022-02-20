@@ -26,14 +26,11 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        // OwnerのDataを全て取得
-        $e_all = Owner::all();
+        // Owne_tableの名前,email,作成日を取得
+        $owners = Owner::select('name','email','created_at')->get();
 
-        // Owner_tableからname列, 作成日時を取得する
-        $q_get = DB::table('owners')->select('name','created_at')->get();
-
-        //  admin/owners/index.blade.phpに'e_all'と'q_get'変数を渡す。
-        return \view('admin.owners.index',compact('e_all', 'q_get'));
+        //  admin/owners/index.blade.phpに$owners変数を渡す。
+        return \view('admin.owners.index',compact('owners'));
     }
 
     /**
@@ -43,7 +40,8 @@ class OwnersController extends Controller
      */
     public function create()
     {
-        //
+        // admin/owners/create.blade.phpに返す
+        return \view('admin.owners.create');
     }
 
     /**
