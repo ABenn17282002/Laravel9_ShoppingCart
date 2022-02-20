@@ -26,24 +26,14 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        /* Carbon(日付を扱うクラス)
-        https://coinbaby8.com/carbon-laravel.html */
+        // OwnerのDataを全て取得
+        $e_all = Owner::all();
 
-        // 現在時刻表示
-        $date_now = Carbon::now();
-        $date_parse = Carbon::parse(now());
+        // Owner_tableからname列, 作成日時を取得する
+        $q_get = DB::table('owners')->select('name','created_at')->get();
 
-        // 年
-        echo $date_now->year;
-        echo "<br>";
-
-        // 現在時刻を表示
-        echo $date_parse;
-        echo "<br>";
-
-        // Format ****年**月**日
-        echo $date_now ->format('Y年m月d日');
-        echo "<br>";
+        //  admin/owners/index.blade.phpに'e_all'と'q_get'変数を渡す。
+        return \view('admin.owners.index',compact('e_all', 'q_get'));
     }
 
     /**
