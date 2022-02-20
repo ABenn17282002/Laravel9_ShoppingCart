@@ -5,10 +5,13 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    {{-- admin用に編集 --}}
-                    <a href="{{ route('admin.dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
-                    </a>
+                    {{-- logoのスタイル調整 --}}
+                    <div class="w-12 m-4">
+                        {{-- admin用に編集 --}}
+                        <a href="{{ route('admin.dashboard') }}">
+                            <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Navigation Links -->
@@ -16,6 +19,10 @@
                     {{-- admin用に編集 --}}
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    {{-- オーナ管理用 --}}
+                    <x-nav-link :href="route('admin.owners.index')" :active="request()->routeIs('admin.owners.index')">
+                        オーナー管理
                     </x-nav-link>
                 </div>
             </div>

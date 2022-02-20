@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+// Ownerコントローラーの使用
+use App\Http\Controllers\Admin\OwnersController;
 
 
 /*
@@ -31,6 +33,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
+
+// リソースコントローラ(Adminログイン時)
+Route::resource('owners', OwnersController::class)
+->middleware('auth:admin');
 
 // auth.phpの引用+Adminモデル
 Route::get('/register', [RegisteredUserController::class, 'create'])

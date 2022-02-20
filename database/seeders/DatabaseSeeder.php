@@ -7,7 +7,8 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * データベースに対するデータ設定の実行
+     * Seed the application's database.
+     * データベースに対するデータ設定の実行関数
      *
      * @return void
      */
