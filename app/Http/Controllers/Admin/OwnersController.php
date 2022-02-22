@@ -109,7 +109,19 @@ class OwnersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // idがなければ404画面
+        $owner = Owner::findOrFail($id);
+        // フォームから取得した値を代入
+        $owner -> name = $request->name;
+        $owner -> email = $request->email;
+        // passwordは暗号化
+        $owner -> password = Hash::make($request->password);
+        // 情報を保存
+        $owner ->save();
+
+        return \redirect()
+        ->route('admin.owners.index')
+        ->with('update','オーナー情報を更新しました');
     }
 
     /**

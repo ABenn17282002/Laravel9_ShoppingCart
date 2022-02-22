@@ -20,6 +20,8 @@
                                 {{-- オーナー情報の編集--}}
                                 {{-- ownerメソッドよりidを取得:/index 名前付きルート 第2引数にidを指定 --}}
                                 <form method="post" action="{{ route('admin.owners.update',['owner'=> $owner -> id]) }}">
+                                    {{-- 編集→更新する場合はPUTメソッドを使用する。 --}}
+                                    @method('PUT')
                                     @csrf
                                     <div class="-m-2">
                                         <div class="p-2 w-1/2 mx-auto">
