@@ -12,6 +12,8 @@
 $(function(){
     @if(Session::has('success'))
         toastr.success("{{ Session::get('success') }}");
+    @elseif (Session::has('update'))
+        toastr.info("{{ Session::get('update') }}");
     @endif
 });
 </script>
