@@ -11,9 +11,29 @@
 <script>
 $(function(){
     @if(Session::has('success'))
+        toastr.options =
+        {
+  	        "closeButton" : true,
+             "positionClass": "toast-top-center",
+
+        }
         toastr.success("{{ Session::get('success') }}");
     @elseif (Session::has('update'))
+    toastr.options =
+        {
+  	        "closeButton" : true,
+            "positionClass": "toast-top-center",
+
+        }
         toastr.info("{{ Session::get('update') }}");
+    @elseif (Session::has('delete'))
+        toastr.options =
+        {
+  	        "closeButton" : true,
+            "positionClass": "toast-top-center",
+
+        }
+        toastr.error("{{ Session::get('delete') }}");
     @endif
 });
 </script>

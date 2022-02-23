@@ -39,6 +39,16 @@
                                             <td class="px-4 py-3">
                                                 <button onclick="location.href='{{ route('admin.owners.edit', ['owner' => $owner->id ])}}'" class="text-white bg-indigo-400 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-500 rounded ">編集</button>
                                             </td>
+                                            {{-- 削除用ボタン --}}
+                                            <form id="delete_{{ $owner-> id }}" method="post" action="{{ route('admin.owners.destroy', ['owner' => $owner->id ])}}">
+                                                @csrf
+                                                {{-- 削除メソッド --}}
+                                                @method('delete')
+                                                <td class="px-4 py-3">
+                                                    {{-- data-id=>owner_id取得 ==>onclickで削除実行 --}}
+                                                    <a href="#" data-id="{{ $owner->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">削除</a>
+                                                </td>
+                                            </form>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -50,4 +60,13 @@
             </div>
         </div>
     </div>
+{{-- 削除確認用アラート --}}
+    <script>
+        function deletePost(e) {
+        'use strict';
+        if (confirm('本当に削除してもいいですか?')) {
+        document.getElementById('delete_' + e.dataset.id).submit();
+        }
+        }
+        </script>
 </x-app-layout>

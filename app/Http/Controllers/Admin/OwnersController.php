@@ -132,6 +132,11 @@ class OwnersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //ソフトデリート
+        Owner::findOrFail($id)->delete();
+
+        return \redirect()
+        ->route('admin.owners.index')
+        ->with('delete','オーナー情報を削除しました');
     }
 }
