@@ -26,6 +26,14 @@ $(function(){
 
         }
         toastr.info("{{ Session::get('update') }}");
+    @elseif (Session::has('trash'))
+        toastr.options =
+        {
+  	        "closeButton" : true,
+            "positionClass": "toast-top-center",
+
+        }
+        toastr.warning("{{ Session::get('trash') }}");
     @elseif (Session::has('delete'))
         toastr.options =
         {
@@ -33,7 +41,7 @@ $(function(){
             "positionClass": "toast-top-center",
 
         }
-        toastr.error("{{ Session::get('delete') }}");
+        toastr.warning("{{ Session::get('delete') }}");
     @endif
 });
 </script>
