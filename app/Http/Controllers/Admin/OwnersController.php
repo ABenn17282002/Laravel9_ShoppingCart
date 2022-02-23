@@ -137,6 +137,23 @@ class OwnersController extends Controller
 
         return \redirect()
         ->route('admin.owners.index')
-        ->with('delete','オーナー情報を削除しました');
+        ->with('trash','オーナー情報をゴミ箱へ移しました');
+    }
+
+    /* 期限切れOwner情報の取得 */
+    public function expiredOwnerIndex()
+    {
+        // softDeleteのみを取得
+        $expiredOwners = Owner::onlyTrashed()->get();
+        return view('admin.expired-owners',\compact('expiredOwners'));
+    }
+
+    /* 期限切れOwner情報の完全削除 */
+    public function expiredOwnerDestroy($id)
+    {
+        // 論理削除したuserを物理削除する
+        Owner::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('admin.expired-owners.index')
+        ->with('delete','オーナー情報を完全に削除しました');;
     }
 }

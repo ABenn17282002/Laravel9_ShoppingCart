@@ -34,6 +34,13 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
 
+// 期限切れOwner一覧表示及び物理削除用ルート
+Route::prefix('expired-owners')->
+    middleware('auth:admin')->group(function(){
+        Route::get('index', [OwnersController::class, 'expiredOwnerIndex'])->name('expired-owners.index');
+        Route::post('destroy/{owner}', [OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
+});
+
 // リソースコントローラ(Adminログイン時)
 Route::resource('owners', OwnersController::class)
 ->middleware('auth:admin');
