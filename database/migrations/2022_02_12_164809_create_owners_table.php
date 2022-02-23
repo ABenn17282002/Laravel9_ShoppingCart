@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            // 論理削除用テーブルを追加
+            $table->softDeletes();
         });
     }
 
