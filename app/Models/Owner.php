@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 // 認証用モデルのインポート
 use Illuminate\Foundation\Auth\User as Authenticatable;
+// softDelete用クラス
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // 認証可能なUserクラスを拡張したOwnerクラス
 class Owner extends Authenticatable
 {
-    use HasFactory;
+    //
+    use HasFactory, SoftDeletes;
 
     /** model内容はUserモデルと同様
      * The attributes that are mass assignable.
