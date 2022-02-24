@@ -28,8 +28,10 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        // Owne_tableの名前,email,作成日を取得 <-id情報がないと編集できないので追加
-        $owners = Owner::select('id','name','email','created_at')->get();
+        // Owne_tableのid,名前,email,作成日を取得
+        $owners = Owner::select('id','name','email','created_at')
+        // ページネーション
+        ->paginate(3);
 
         //  admin/owners/index.blade.phpに$owners変数を渡す。
         return \view('admin.owners.index',compact('owners'));
