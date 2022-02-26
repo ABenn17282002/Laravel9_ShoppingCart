@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             OwnerSeeder::class,
+            // shopクラスの追加
+            ShopSeeder::class
         ]);
     }
 }
