@@ -17,7 +17,11 @@ return new class extends Migration
             // id
             $table->id();
             // 外部キー制約(owner_idに紐づくもの)
-            $table->foreignId('owner_id')->constrained();
+            $table->foreignId('owner_id')
+            ->constrained()
+            // Delete時の対応で外部制約のため必要
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             // 名前
             $table->string('name');
             // 情報
