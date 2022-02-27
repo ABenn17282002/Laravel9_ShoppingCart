@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // softDelete用クラス
 use Illuminate\Database\Eloquent\SoftDeletes;
+// shopモデルの追加
+use App\Models\Shop;
 
 // 認証可能なUserクラスを拡張したOwnerクラス
 class Owner extends Authenticatable
