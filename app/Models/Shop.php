@@ -12,8 +12,20 @@ class Shop extends Model
     use HasFactory;
 
     /**
+    * shop_tableの定義
+    */
+    protected $fillable =[
+        'owner_id',
+        'name',
+        'information',
+        'filename',
+        'is_selling'
+    ];
+
+
+    /**
      * このshopにいるオーナー情報を全てを取得
-     */
+    */
     public function owner()
     {
         return $this->belongsTo(Owner::class);

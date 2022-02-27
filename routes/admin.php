@@ -1,4 +1,6 @@
 <?php
+// Ownerコントローラーの使用
+use App\Http\Controllers\Admin\OwnersController;
 
 // 作成したAdmin用クラスをインポート
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
@@ -10,8 +12,6 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-// Ownerコントローラーの使用
-use App\Http\Controllers\Admin\OwnersController;
 
 
 /*
@@ -30,12 +30,14 @@ use App\Http\Controllers\Admin\OwnersController;
 //     return view('admin.welcome');
 // });
 
-
-
-
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
+
+// リソースコントローラ(Adminログイン時)
+// show画面を除外したルーティング
+Route::resource('owners', OwnersController::class)
+->middleware('auth:admin')->except(['show']);
 
 // 期限切れOwner一覧表示及び物理削除用ルート
 Route::prefix('expired-owners')->
@@ -43,11 +45,6 @@ Route::prefix('expired-owners')->
         Route::get('index', [OwnersController::class, 'expiredOwnerIndex'])->name('expired-owners.index');
         Route::post('destroy/{owner}', [OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
 });
-
-// リソースコントローラ(Adminログイン時)
-// show画面を除外したルーティング
-Route::resource('owners', OwnersController::class)
-->middleware('auth.admin')->except(['show']);
 
 // auth.phpの引用+Adminモデル
 Route::get('/register', [RegisteredUserController::class, 'create'])

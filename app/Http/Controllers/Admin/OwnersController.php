@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use APP\Models\Admin;
 use Illuminate\Http\Request;
-use App\Models\Owner;  // Eloquent エロクアント
-use Illuminate\Support\Facades\DB; // QueryBuilder クエリービルダー
-use Carbon\Carbon;   // 日付を扱うクラス
-use Illuminate\Support\Facades\Hash;  // 暗号化クラス
-use Illuminate\Validation\Rules;      // validationクラス
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;     // 暗号化クラス
+use Carbon\Carbon;                      // 日付を扱うクラス
+use Illuminate\Validation\Rules;        // validationクラス
+use Illuminate\Support\Facades\DB;      // QueryBuilder クエリービルダー
+use App\Models\Owner;                  // Ownerモデルクラス
+use App\Models\Shop;                   // shopモデルクラス
+use Throwable;                         // 例外catch用
+use Illuminate\Support\Facades\Log;   // エラーLog記録用
 
 class OwnersController extends Controller
 {
@@ -63,12 +67,39 @@ class OwnersController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // name,email,passowrdの保存
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // try catch構文
+        try {
+            // transaction2回失敗時=> error(引数:$request)
+            DB::transaction(function() use($request){
+
+            /**
+             * オーナー作成時にshopも同時に作成*/
+            // name,email,passowrdの保存
+            $owner=Owner::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            // 店舗作成
+            Shop::create([
+                // owner_tableよりowner_idを取得
+                'owner_id'=> $owner->id,
+                'name'=>'仮店舗名1',
+                'information'=>'',
+                'filename'=>'',
+                'is_selling'=>true
+            ]);
+
+            },2);
+
+        }catch(Throwable $e){
+            // 例外処理の記録と画面表示
+            Log::error($e);
+            throw $e;
+        }
+
+
 
         // owners.indexページへリダイレクト flashmessage
         return \redirect()->route('admin.owners.index')
