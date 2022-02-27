@@ -44,4 +44,13 @@ class Owner extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Ownerに関連しているshop情報を取得
+     */
+    public function shop()
+    {
+        return $this->hasOne(Shop::class);
+    }
 }
