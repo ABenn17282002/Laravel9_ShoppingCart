@@ -47,7 +47,7 @@ Route::prefix('expired-owners')->
 // リソースコントローラ(Adminログイン時)
 // show画面を除外したルーティング
 Route::resource('owners', OwnersController::class)
-->middleware('auth.admin')->except(['show']);
+->middleware('auth:admin')->except(['show']);
 
 // auth.phpの引用+Adminモデル
 Route::get('/register', [RegisteredUserController::class, 'create'])
