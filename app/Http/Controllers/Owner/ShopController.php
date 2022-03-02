@@ -50,7 +50,6 @@ class ShopController extends Controller
     public function index()
     {
         // Login済Owner_idの取得
-        $ownerId = Auth::id();
         $shops = Shop::where('owner_id', Auth::id())->get();
 
         // owner/index.balde.phpにshops変数付で返す
