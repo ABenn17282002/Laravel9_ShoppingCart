@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Owner;
 
-use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 // Shopモデル
-use App\Models\Shop;
+use App\Http\Controllers\Controller;
 // Auth認証用モデル
 use Illuminate\Support\Facades\Auth;
+// storage用モデル
+use Illuminate\Support\Facades\Storage;
+//  画像リサイズ用モデル
+use InterventionImage;
+
 
 class ShopController extends Controller
 {
@@ -49,6 +54,8 @@ class ShopController extends Controller
      */
     public function index()
     {
+        // \phpinfo();
+
         // Login済Owner_idの取得
         $shops = Shop::where('owner_id', Auth::id())->get();
 
@@ -66,7 +73,11 @@ class ShopController extends Controller
     public function edit($id)
     {
         // idがあればそのページ,なければ404
-        dd(Shop::findOrFail($id));
+        $shop = Shop::findOrFail($id);
+
+        // owner/shops/edit.blade.phpにshop変数付でページを返す
+        return \view('owner.shops.edit',
+        \compact('shop'));
     }
 
     /**
@@ -78,6 +89,29 @@ class ShopController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // 一時フォルダ上で画像を保存
+        $imageFile = $request->image;
+        // 画像がnullでなく、upload出来ている場合
+        if(!is_null($imageFile) && $imageFile->isValid()){
 
+            // Storage::putFile('public\shops',$imageFile);
+
+            // 乱数値でファイル名作成
+            $fileName = uniqid(rand().'_');
+            // image_fileを拡張
+            $extension = $imageFile->extension();
+            // 拡張したfile名+乱数値で再度ファイル名を生成
+            $fileNameToStore = $fileName. '.' . $extension;
+            $resizedImage = InterventionImage::make($imageFile)
+            ->resize(1920, 1080)->encode();
+            // dd($imageFile,$resizedImage);
+
+            // publicフォルダ配下にshopsフォルダを作り、画像を保存
+            Storage::put('public/shops/' . $fileNameToStore,
+            $resizedImage );
+        }
+
+        // 画像保存後shops.indexにリダイレクト
+        return redirect()->route('owner.shops.index');
     }
 }
