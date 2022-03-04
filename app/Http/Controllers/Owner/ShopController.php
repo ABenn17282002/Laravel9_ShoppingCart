@@ -102,6 +102,7 @@ class ShopController extends Controller
             $extension = $imageFile->extension();
             // 拡張したfile名+乱数値で再度ファイル名を生成
             $fileNameToStore = $fileName. '.' . $extension;
+            // 1920 * 1080sizeに画像を変更
             $resizedImage = InterventionImage::make($imageFile)
             ->resize(1920, 1080)->encode();
             // dd($imageFile,$resizedImage);
