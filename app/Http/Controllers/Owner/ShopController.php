@@ -8,12 +8,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // Auth認証用モデル
 use Illuminate\Support\Facades\Auth;
-// storage用モデル
-use Illuminate\Support\Facades\Storage;
-//  画像リサイズ用モデル
-use InterventionImage;
 // UploadImageRequestクラス
 use App\Http\Requests\UploadImageRequest;
+// ImageServiceクラス
+use App\Services\ImageService;
 
 
 class ShopController extends Controller
@@ -95,23 +93,8 @@ class ShopController extends Controller
         $imageFile = $request->image;
         // 画像がnullでなく、upload出来ている場合
         if(!is_null($imageFile) && $imageFile->isValid()){
-
-            // Storage::putFile('public\shops',$imageFile);
-
-            // 乱数値でファイル名作成
-            $fileName = uniqid(rand().'_');
-            // image_fileを拡張
-            $extension = $imageFile->extension();
-            // 拡張したfile名+乱数値で再度ファイル名を生成
-            $fileNameToStore = $fileName. '.' . $extension;
-            // 1920 * 1080sizeに画像を変更
-            $resizedImage = InterventionImage::make($imageFile)
-            ->resize(1920, 1080)->encode();
-            // dd($imageFile,$resizedImage);
-
-            // publicフォルダ配下にshopsフォルダを作り、画像を保存
-            Storage::put('public/shops/' . $fileNameToStore,
-            $resizedImage );
+            // ImageServiceクラスのuploadmethodに$imageFileとフォルダ名を渡す。
+            $fileNameToStore = ImageService::upload($imageFile,'shops');
         }
 
         // 画像保存後shops.indexにリダイレクト
