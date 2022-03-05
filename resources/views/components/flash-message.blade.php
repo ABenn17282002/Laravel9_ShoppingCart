@@ -10,18 +10,19 @@
 {{-- Flassmessage --}}
 <script>
 $(function(){
+    // Owner情報更新用message
     @if(Session::has('success'))
         toastr.options =
         {
-  	        "closeButton" : true,
-             "positionClass": "toast-top-center",
+            "closeButton" : true,
+            "positionClass": "toast-top-center",
 
         }
         toastr.success("{{ Session::get('success') }}");
     @elseif (Session::has('update'))
     toastr.options =
         {
-  	        "closeButton" : true,
+            "closeButton" : true,
             "positionClass": "toast-top-center",
 
         }
@@ -29,7 +30,7 @@ $(function(){
     @elseif (Session::has('trash'))
         toastr.options =
         {
-  	        "closeButton" : true,
+            "closeButton" : true,
             "positionClass": "toast-top-center",
 
         }
@@ -37,11 +38,23 @@ $(function(){
     @elseif (Session::has('delete'))
         toastr.options =
         {
-  	        "closeButton" : true,
+            "closeButton" : true,
             "positionClass": "toast-top-center",
 
         }
         toastr.warning("{{ Session::get('delete') }}");
     @endif
+
+    // 店舗情報用message
+    @if (Session::has('info'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "positionClass": "toast-top-center",
+
+        }
+        toastr.info("{{ Session::get('info') }}");
+    @endif
 });
+
 </script>
