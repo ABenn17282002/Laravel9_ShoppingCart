@@ -27,14 +27,8 @@
                                     <div class="text-xl">
                                         {{ $shop->name }}
                                     </div>
-                                    {{-- 画像の取得 --}}
-                                    <div>
-                                        @if(empty($shop->filename))
-                                            <img src="{{ asset('images/no_image.jpg')}}">
-                                        @else
-                                            <img src="{{ asset('storage/shops/' . $shop->filename)}}">
-                                        @endif
-                                    </div>
+                                    {{-- コンポーネントより画像の取得 --}}
+                                    <x-shop-thumbnail />
                                 </div>
                             </a>
                         </div>

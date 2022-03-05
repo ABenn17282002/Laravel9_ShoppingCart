@@ -13,23 +13,52 @@
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     {{-- 画像アップロード --}}
                     <form method="post" action="{{ route('owner.shops.update', ['shop' => $shop->id ])}}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="-m-2">
-                            <div class="p-2 w-1/2 mx-auto">
-                                <div class="relative">
-                                    <label for="image" class="leading-7 text-sm text-gray-600">画像</label>
-                                    {{-- 画像アップロード accept:画像受取形式、
-                                        requireは外す(必ずしもuploadする必要性がないため)--}}
-                                    <input type="file" id="image" name="image"
-                                    accept=“image/png,image/jpeg,image/jpg”
-                                    class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500
-                                    focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            @csrf
+                            <div class="-m-2">
+                                <div class="p-2 w-1/2 mx-auto">
+                                    <div class="relative">
+                                        <label for="name" class="leading-7 text-sm text-gray-600">店名【必須】</label>
+                                        {{-- データベースより店舗名取得 --}}
+                                        <input type="text" id="name" name="name" value="{{ $shop ->name }}" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    </div>
+                                </div>
+                                <div class="p-2 w-1/2 mx-auto">
+                                    <div class="relative">
+                                        <label for="name" class="leading-7 text-sm text-gray-600">店舗情報【必須】</label>
+                                        {{-- データベースより店舗情報取得 --}}
+                                        <textarea id="information" name="information" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">{{ $shop ->information }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-1/2 mx-auto">
+                                    <div class="relative">
+                                        <div class="w-32">
+                                            {{-- コンポーネントより画像の取得 --}}
+                                            <x-shop-thumbnail />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-1/2 mx-auto">
+                                    <div class="relative">
+                                        <label for="image" class="leading-7 text-sm text-gray-600">画像</label>
+                                        {{-- 画像アップロード accept:画像受取形式、
+                                            requireは外す(必ずしもuploadする必要性がないため)--}}
+                                        <input type="file" id="image" name="image"
+                                        accept=“image/png,image/jpeg,image/jpg”
+                                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500
+                                        focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    </div>
+                                </div>
+                                <div class="p-2 w-1/2 mx-auto">
+                                    <div class="relative flex justify-around">
+                                        <div><input type="radio" name="is_selling" value="1" class="mr-2" @if($shop->is_selling === 1){ checked } @endif>販売中</div>
+                                        <div><input type="radio" name="is_selling" value="0" class="mr-2" @if($shop->is_selling === 0){ checked } @endif>停止中</div>
+                                    </div>
                                 </div>
                                 <div class="p-2 w-full flex justify-around mt-4">
-                                    {{-- 戻る --}}
-                                    <button type="button" onclick="location.href='{{ route('owner.shops.index')}}'" class="bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-lg">戻る</button>
-                                    {{-- 更新ボタン --}}
-                                    <button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新する</button>
+                                        {{-- 戻る --}}
+                                        <button type="button" onclick="location.href='{{ route('owner.shops.index')}}'" class="bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-lg">戻る</button>
+                                        {{-- 更新ボタン --}}
+                                        <button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新する</button>
                                 </div>
                             </div>
                         </div>
