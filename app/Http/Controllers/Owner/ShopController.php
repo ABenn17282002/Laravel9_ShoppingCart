@@ -89,6 +89,13 @@ class ShopController extends Controller
      */
     public function update(UploadImageRequest $request, $id)
     {
+        // validation
+        $request->validate([
+            'name' => ['required', 'string', 'max:50'],
+            'information' => ['required', 'string', 'max:1000'],
+            'is_selling' => ['required'],
+        ]);
+
         // 一時フォルダ上で画像を保存
         $imageFile = $request->image;
         // 画像がnullでなく、upload出来ている場合
@@ -97,7 +104,24 @@ class ShopController extends Controller
             $fileNameToStore = ImageService::upload($imageFile,'shops');
         }
 
+        // shop_idの取得
+        $shop = Shop::findOrFail($id);
+        // 取得したshopIDから店舗名・情報・販売情報を取得
+        $shop ->name = $request->name;
+        $shop ->information = $request->information;
+        $shop ->is_selling = $request->is_selling;
+         // 画像がnullでなく、upload出来ている場合
+        if(!is_null($imageFile) && $imageFile->isValid()){
+            // UpLoadしたファイル名を取得
+            $shop ->filename =$fileNameToStore ;
+        }
+
+        // 店舗情報を一括登録
+        $shop ->save();
+
         // 画像保存後shops.indexにリダイレクト
-        return redirect()->route('owner.shops.index');
+        return redirect()
+        ->route('owner.shops.index')
+        ->with('info','店舗情報を更新しました');
     }
 }
