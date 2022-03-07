@@ -22,7 +22,6 @@ class Shop extends Model
         'is_selling'
     ];
 
-
     /**
      * このshopにいるオーナー情報を全てを取得
     */
@@ -30,4 +29,5 @@ class Shop extends Model
     {
         return $this->belongsTo(Owner::class);
     }
+
 }
