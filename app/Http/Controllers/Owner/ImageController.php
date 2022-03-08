@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 // Imageと認証モデル
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+// UploadImageRequestクラス
+use App\Http\Requests\UploadImageRequest;
 class ImageController extends Controller
 {
 
@@ -62,18 +64,19 @@ class ImageController extends Controller
      */
     public function create()
     {
-        //
+        // owner/images/create.blade.phpにviewを返す
+        return \view('owner.images.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UploadImageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UploadImageRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**
