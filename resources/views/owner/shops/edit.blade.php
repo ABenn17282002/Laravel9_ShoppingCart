@@ -33,8 +33,8 @@
                                     <div class="relative">
                                         <div class="w-32">
                                             {{-- コンポーネントより画像の取得
-                                            :filename="$shop->filename"=>UpLoad画像取得 --}}
-                                            <x-shop-thumbnail :filename="$shop->filename" />
+                                            :filename="$shop->filename"=>UpLoad画像取得 店舗画像--}}
+                                            <x-thumbnail :filename="$shop->filename" type="shops"/>
                                         </div>
                                     </div>
                                 </div>

@@ -49,10 +49,20 @@ class Owner extends Authenticatable
 
 
     /**
-     * Ownerに関連しているshop情報を取得
-     */
+    * Ownerに関連しているshop情報を取得
+    * 1 対 1モデル
+    */
     public function shop()
     {
         return $this->hasOne(Shop::class);
+    }
+
+    /**
+    * Ownerに関連しているimage情報を取得
+    * 1 対 多モデル
+    */
+    public function image()
+    {
+        return $this->hasMany(Image::class);
     }
 }
