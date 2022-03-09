@@ -15,25 +15,25 @@
                     {{-- 画像新規作成 --}}
                     <div class="flex justify-end mb-4">
                         <button onclick="location.href='{{ route('owner.images.create')}}'" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録する</button>
-                      </div>
-                    {{-- foreach構文でshops_tableからデータを取得 --}}
-                    @foreach ($images as $image)
-                    {{-- width:1/2→1/4に変更 --}}
-                        <div class="w-1/4 p-4">
-                            {{-- shop_id取得→編集ページ --}}
-                            <a href="{{ route('owner.images.edit', ['image' => $image->id ])}}">
-                                <div class="border rounded-md p-4">
-                                    {{-- image_title名 --}}
-                                    <div class="text-xl">
-                                        {{ $image ->title }}
-                                    </div>
-                                    {{-- コンポーネントより画像の取得
-                                    :filename="$shop->filename"=>UpLoad画像取得  製品画像--}}
-                                    <x-thumbnail :filename="$shop->filename" type="products" />
-                                </div>
-                            </a>
+                    </div>
+                    {{-- 画像をflexで横並びにする --}}
+                    <div class="flex flex-wrap">
+                        {{-- foreach構文でshops_tableからデータを取得 --}}
+                        @foreach ($images as $image)
+                        {{-- width:1/2→1/4に変更 --}}
+                            <div class="w-1/4 p-4">
+                                {{-- shop_id取得→編集ページ --}}
+                                <a href="{{ route('owner.images.edit', ['image' => $image->id ])}}">
+                                        <div class="border rounded-md p-2 md:p-4">
+                                            {{-- コンポーネントより製品画像取得 --}}
+                                            <x-thumbnail :filename="$image->filename" type="products" />
+                                            {{-- 画像title取得 --}}
+                                            <div class="text-gray-700">{{ $image->title }}</div>
+                                        </div>
+                                </a>
+                            </div>
+                        @endforeach
                         </div>
-                    @endforeach
                     {{-- ページネーション --}}
                     {{ $images->links() }}
                 </div>

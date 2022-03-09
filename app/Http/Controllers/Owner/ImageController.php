@@ -9,6 +9,9 @@ use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 // UploadImageRequestクラス
 use App\Http\Requests\UploadImageRequest;
+// ImageServiceの使用
+use App\Services\ImageService;
+
 class ImageController extends Controller
 {
 
@@ -76,7 +79,25 @@ class ImageController extends Controller
      */
     public function store(UploadImageRequest $request)
     {
-        dd($request);
+        // 複数ファイルを取得
+        $imageFiles = $request->file('files');
+        // 配列が空でない場合
+        if(!is_null($imageFiles)){
+            foreach($imageFiles as $imageFile){
+                // 製品フォルダ内に画像を1つずつupload
+                $fileNameToStore = ImageService::upload($imageFile, 'products');
+                // image_tableのowneridとfilenameに記録
+                Image::create([
+                    'owner_id' => Auth::id(),
+                    'filename' => $fileNameToStore
+                ]);
+            }
+        }
+
+        // redirect owner/images/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.images.index')
+        ->with('info','画像登録を実施しました。');
     }
 
     /**
