@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 // Imageと認証モデル
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+// UploadImageRequestクラス
+use App\Http\Requests\UploadImageRequest;
+// ImageServiceの使用
+use App\Services\ImageService;
+
 class ImageController extends Controller
 {
 
@@ -62,18 +67,37 @@ class ImageController extends Controller
      */
     public function create()
     {
-        //
+        // owner/images/create.blade.phpにviewを返す
+        return \view('owner.images.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UploadImageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UploadImageRequest $request)
     {
-        //
+        // 複数ファイルを取得
+        $imageFiles = $request->file('files');
+        // 配列が空でない場合
+        if(!is_null($imageFiles)){
+            foreach($imageFiles as $imageFile){
+                // 製品フォルダ内に画像を1つずつupload
+                $fileNameToStore = ImageService::upload($imageFile, 'products');
+                // image_tableのowneridとfilenameに記録
+                Image::create([
+                    'owner_id' => Auth::id(),
+                    'filename' => $fileNameToStore
+                ]);
+            }
+        }
+
+        // redirect owner/images/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.images.index')
+        ->with('info','画像登録を実施しました。');
     }
 
     /**
