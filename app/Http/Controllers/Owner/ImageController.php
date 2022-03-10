@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UploadImageRequest;
 // ImageServiceの使用
 use App\Services\ImageService;
-
+// Storage用モジュールの使用
+use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
 {
 
@@ -148,6 +149,22 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // imageIDを取得
+        $image = Image::findOrFail($id);
+        // file情報取得
+        $filePath = 'public/products'. $image->filename;
+
+        // fileがあれば画像削除
+        if(Storage::exists($filePath)){
+            Storage::delete($filePath);
+        }
+
+        // DB情報削除
+        Image::findOrFail($id)->delete();
+
+        // redirect owner/images/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.images.index')
+        ->with('delete','画像を完全に削除しました');;
     }
 }
