@@ -35,7 +35,8 @@ The links have been created.
 ```
 
 (2) sample1~6.jpgをpublic/imagesからstorage/app/public/productsフォルダ内に 
-保存する(productsフォルダがない場合は作成してください。)
+保存する
+(productsフォルダがない場合は作成してください。)
 
 (3) php aritsan migrate:refresh --seedでtable再作成後、ownerLoginUserで
 画像表示タグ選択で画像が表示されます。
