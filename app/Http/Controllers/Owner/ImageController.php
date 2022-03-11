@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UploadImageRequest;
 // ImageServiceの使用
 use App\Services\ImageService;
-
+// Storage用モジュールの使用
+use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
 {
 
@@ -101,17 +102,6 @@ class ImageController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -119,19 +109,36 @@ class ImageController extends Controller
      */
     public function edit($id)
     {
-        //
+        // Image_idの取得(ない場合:404)
+        $image = Image::findOrFail($id);
+        return \view('owner.images.edit',\compact('image'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UploadImageRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UploadImageRequest $request, $id)
     {
-        //
+        // validation
+        $request->validate([
+            'title' => ['string', 'max:50'],
+        ]);
+
+        // image_idの取得
+        $image = Image::findOrFail($id);
+        // 取得したImageIdからtitleを取得
+        $image ->title = $request->title;
+        // 情報を保存
+        $image ->save();
+
+        // redirect owner/images/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.images.index')
+        ->with('info','画像情報を更新しました。');
     }
 
     /**
@@ -142,6 +149,22 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // imageIDを取得
+        $image = Image::findOrFail($id);
+        // file情報取得
+        $filePath = 'public/products'. $image->filename;
+
+        // fileがあれば画像削除
+        if(Storage::exists($filePath)){
+            Storage::delete($filePath);
+        }
+
+        // DB情報削除
+        Image::findOrFail($id)->delete();
+
+        // redirect owner/images/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.images.index')
+        ->with('delete','画像を完全に削除しました');;
     }
 }
