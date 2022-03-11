@@ -24,8 +24,9 @@ sail@*******:/var/www/html$　
 <参考>[3秒で終わるLaravel開発環境構築](https://qiita.com/print_r_keeeng/items/544d14e4e0eab0508985)
 
 ### 2. 画像の設定
-画像のダミーデータは public/imagesフォルダ内に 
+画像のダミーデータは public/imagesフォルダ内に<br/>
 sample1.jpg 〜 sample6.jpg として保存しています。
+<br/>
 
 (1) 1.の手順実施後、以下コマンドにてstorageフォルダーにリンク
 ```
