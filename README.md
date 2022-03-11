@@ -2,7 +2,7 @@
 ## インストール方法
 
 ## インストール後の実施事項
-1. エイリアスの設定
+### 1. エイリアスの設定
 (1) .bash_profileファイルに下記記載。
 ```
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
@@ -22,7 +22,7 @@ sail@*******:/var/www/html$　
 ```
 <参考>[3秒で終わるLaravel開発環境構築](https://qiita.com/print_r_keeeng/items/544d14e4e0eab0508985)
 
-2. 画像の設定
+### 2. 画像の設定
 画像のダミーデータは public/imagesフォルダ内に 
 sample1.jpg 〜 sample6.jpg として保存しています。
 
