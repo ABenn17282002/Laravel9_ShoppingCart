@@ -36,6 +36,7 @@ The links have been created.
 ```
 
 (2) sample1~6.jpgをpublic/imagesからstorage/app/public/productsフォルダ内に保存する
+
 (productsフォルダがない場合は作成してください。)
 
 (3) php aritsan migrate:refresh --seedでtable再作成後、ownerLoginUserで
