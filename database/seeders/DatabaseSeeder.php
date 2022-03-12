@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             // shopクラスの追加
             ShopSeeder::class,
             // Imageクラスの追加
-            ImageSeeder::class
+            ImageSeeder::class,
+            // CategorySeederクラスの追加
+            CategorySeeder::class
         ]);
     }
 }
