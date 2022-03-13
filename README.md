@@ -60,4 +60,3 @@ Psy Shell v0.11.1 (PHP 8.1.2 — cli) by Justin Hileman
 >>> $product::find(1)->stock->sum('quantity')
 => 3
 ```
-※ EagerLoaderでのページネーションは検証中です。
