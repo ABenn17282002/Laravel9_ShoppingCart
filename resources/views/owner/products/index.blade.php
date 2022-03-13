@@ -36,8 +36,8 @@
                             @endforeach
                         @endforeach
                     </div>
-                    {{-- ページネーション
-                    {{ $images->links() }} --}}
+                    {{-- ページネーション --}}
+                    {{-- {{ $ownerInfo->links() }} --}}
                 </div>
             </div>
         </div>

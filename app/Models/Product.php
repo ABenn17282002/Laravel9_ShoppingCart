@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+// shopモデルの使用
+use App\Models\Shop;
+// stockモデルの使用
+use App\Models\Stock;
+use App\Models\SecondaryCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// shopモデルの追加
-use App\Models\Shop;
-use App\Models\SecondaryCategory;
 
 class Product extends Model
 {
@@ -38,5 +40,14 @@ class Product extends Model
     public function imageFirst()
     {
        return $this->belongsTo(Image::class, 'image1', 'id');
+    }
+
+    /**
+    * Prouduct(製品)に関わるStoc情報を全て取得
+    * 1対多モデル
+    */
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
     }
 }

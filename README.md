@@ -2,55 +2,61 @@
 ## インストール方法
 
 ## インストール後の実施事項
-1. エイリアスの設定
-(1) .bash_profileファイルに下記記載。
-```
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-```
-(2) home/user直下に置く
+### 1. Debugの導入
+.envファイルのAPP_DEBUG<br/>
+検証環境の場合:true<br/>
+本番環境の場合:false
 
-(3) 下記コマンド実施
+### 2. EagerLoader時のページネーション
+→検証中になります。暫定対応get()で画像一覧取得のみ。
+
+### 3.DBの構築作業
+下記コマンドで出来ます。<br/>
 ```
-cd projectfolder
-
-// Dockeの起動
-/laravel_project/ShoppingCart$ ./vendor/bin/sail up -d
-// Server環境にLogin
-/laravel_project/ShoppingCart$  source ~/.bash_profile
-~/laravel_project/ShoppingCart$ sail shell
-sail@*******:/var/www/html$　
-```
-<参考>[3秒で終わるLaravel開発環境構築](https://qiita.com/print_r_keeeng/items/544d14e4e0eab0508985)
-
-2. 画像の設定
-画像のダミーデータは public/imagesフォルダ内に 
-sample1.jpg 〜 sample6.jpg として保存しています。
-
-(1) 1.の手順実施後、以下コマンドにてstorageフォルダーにリンク
-```
-sail@*******:/var/www/html$php artisan storage:link
-// 下記messageが出ればOK！
-The [/var/www/html/public/storage] link has been connected to [/var/www/html/storage/app/public].
-The links have been created.
-```
-
-(2) sample1~6.jpgをpublic/imagesからstorage/app/public/productsフォルダ内に 
-保存する(productsフォルダがない場合は作成してください。)
-
-(3) php aritsan migrate:refresh --seedでtable再作成後、ownerLoginUserで
-画像表示タグ選択で画像が表示されます。
-
-```
-sail@*******:/var/www/html$php artisan migrate:fresh --seed
-// 下記messageが出ればOK！
+> cd projectfolder
+> ./vendor/bin/sail up -d
+> source ~/.bash_profile
+> sail shell
+// DB再構築用コマンド(既存DBがなければmigrateまででOK)
+sail@******:/var/www/html$ php artisan migrate:fresh --seed
+// 以下messageが出ればOK！
 Dropped all tables successfully.
 Migration table created successfully.
 Migrating: 2014_10_12_000000_create_users_table
-Migrated:  2014_10_12_000000_create_users_table (64.59ms)
-   :
-Migrated:  2022_03_07_224854_create_images_table (121.56ms)
+　　　：
+Migrated:  2022_03_13_231745_create_stocks_table (113.74ms)
 Seeding: Database\Seeders\AdminSeeder
- 　:
-Seeded:  Database\Seeders\ImageSeeder (5.87ms)
-Database seeding completed successfully.
+　　　：
+Seeded:  Database\Seeders\StockSeeder (5.39ms)
+```
+### 4. php artsan tinkerでモデルの確認
+```
+sail@******:/var/www/html$php artisan tinker
+Psy Shell v0.11.1 (PHP 8.1.2 — cli) by Justin Hileman
+>>> $product = new App\Models\Product
+=> App\Models\Product {#4549}
+>>> $product::find(1)->stock
+=> Illuminate\Database\Eloquent\Collection {#4564
+     all: [
+       App\Models\Stock {#4565
+         id: 1,
+         product_id: 1,
+         type: 1,
+         quantity: 5,
+         created_at: null,
+         updated_at: null,
+       },
+       App\Models\Stock {#4568
+         id: 2,
+         product_id: 1,
+         type: 1,
+         quantity: -2,
+         created_at: null,
+         updated_at: null,
+       },
+     ],
+   }
+// 合計を計算
+>>> $product::find(1)->stock->sum('quantity')
+=> 3
 ```
