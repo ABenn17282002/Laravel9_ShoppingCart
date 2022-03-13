@@ -46,12 +46,26 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // shopに紐づく製品の認証済IDの取得
-        $products = Owner::findOrFail(Auth::id())->shop->product;
+        // EagerLoadingなし
+        // $products = Owner::findOrFail(Auth::id())->shop->product;
+
+        /*N + 1問題の対策:リレーション先のリレーション情報を取得
+        → withメソッド、リレーションをドットでつなぐ*/
+        $ownerInfo = Owner::with('shop.product.imageFirst')
+        ->where('id', Auth::id())->get();
+
+        // dd($ownerInfo);
+        // foreach($ownerInfo as $owner){
+        //    dd($owner->shop->product);
+        //     foreach($owner->shop->product as $product){
+        //         dd($product->imageFirst->filename);
+        //     }
+        // }
+
 
         // owner/products/index.balde.phpにproducts変数付で返す
         return view('owner.products.index',
-        compact('products'));
+        compact('ownerInfo'));
     }
 
     /**
