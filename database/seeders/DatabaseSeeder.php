@@ -21,8 +21,12 @@ class DatabaseSeeder extends Seeder
             ShopSeeder::class,
             // Imageクラスの追加
             ImageSeeder::class,
-            // CategorySeederクラスの追加
-            CategorySeeder::class
+            // Categoryクラスの追加
+            CategorySeeder::class,
+            // Productクラスの追加
+            ProductSeeder::class,
+            // Stockクラスの追加
+            StockSeeder::class,
         ]);
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 // Ownerモデルの使用
 use App\Models\Owner;
+// Productモデルの使用
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Shop extends Model
 {
@@ -28,6 +29,15 @@ class Shop extends Model
     public function owner()
     {
         return $this->belongsTo(Owner::class);
+    }
+
+    /**
+    * shopに関連しているproducts情報を取得
+    * 1 対 多モデル
+    */
+    public function product()
+    {
+        return $this->hasMany(Product::class);
     }
 
 }
