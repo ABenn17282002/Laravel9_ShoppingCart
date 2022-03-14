@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // 認証モデルの使用
 use Illuminate\Support\Facades\Auth;
-// Image,Product,Owner,products,SecondaryCategoryモデルの使用
+// Image,Product,Owner,productsモデルの使用
 Use App\Models\Image;
 use App\Models\Product;
 use App\Models\Owner;
-use App\Models\SecondaryCategory;
+// PrimaryCategoryに修正
+use App\Models\PrimaryCategory;
+// shopモデルの使用を追加
+use App\Models\Shop;
+
 class ProductController extends Controller
 {
     /* コンストラクタの設定 */
@@ -66,7 +70,24 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        // shops_tableよりid,nameを取得
+        $shops = Shop::where('owner_id', Auth::id())
+        ->select('id', 'name')
+        ->get();
+
+        // Images_tableよりid,title,filenameを更新順に取得
+        $images = Image::where('owner_id', Auth::id())
+        ->select('id','title','filename')
+        ->orderBy('updated_at','desc')
+        ->get();
+
+        // withを用いて、関連するsecondaryも一緒に取得する.
+        $categories = PrimaryCategory::with('secondary')
+        ->get();
+
+        // owner/products/create.balde.phpに上記変数付で返す
+        return \view('owner.products.create',
+        \compact('shops','images','categories'));
     }
 
     /**
