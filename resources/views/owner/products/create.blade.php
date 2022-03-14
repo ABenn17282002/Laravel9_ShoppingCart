@@ -33,6 +33,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <x-select-image  name="image1" />
                                 <div class="p-2 w-full flex justify-around mt-4">
                                         {{-- 戻る --}}
                                         <button type="button" onclick="location.href='{{ route('owner.products.index')}}'" class="bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-lg">戻る</button>
