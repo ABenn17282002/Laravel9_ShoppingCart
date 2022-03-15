@@ -18,11 +18,11 @@
                     </div>
                     {{-- 画像をflexで横並びにする --}}
                     <div class="flex flex-wrap">
-                        {{-- foreach構文でshops_tableからデータを取得 --}}
+                        {{-- foreach構文でimages_tableからデータを取得 --}}
                         @foreach ($images as $image)
                         {{-- width:1/2→1/4に変更, padding-2, md:p-4に変更 --}}
                             <div class="w-1/4 p-2 md:p-4">
-                                {{-- shop_id取得→編集ページ --}}
+                                {{-- images_id取得→編集ページ --}}
                                 <a href="{{ route('owner.images.edit', ['image' => $image->id ])}}">
                                         <div class="border rounded-md p-2 md:p-4">
                                             {{-- コンポーネントより製品画像取得 --}}
@@ -33,7 +33,7 @@
                                 </a>
                             </div>
                         @endforeach
-                        </div>
+                    </div>
                     {{-- ページネーション --}}
                     {{ $images->links() }}
                 </div>
