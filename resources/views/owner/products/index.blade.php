@@ -26,8 +26,9 @@
                                     {{-- product_id取得→編集ページ --}}
                                     <a href="{{ route('owner.products.edit', ['product' => $product->id ])}}">
                                             <div class="border rounded-md p-2 md:p-4">
-                                                {{-- コンポーネントより製品idに紐づく画像一覧を取得 --}}
-                                                <x-thumbnail :filename="$product->imageFirst->filename" type="products" />
+                                                {{-- コンポーネントより製品idに紐づく画像一覧を取得
+                                                filenameがなければ''--}}
+                                                <x-thumbnail filename="{{ $product->imageFirst->filename ?? ''}}" type="products" />
                                                 {{-- 製品画像名を取得 --}}
                                                 <div class="text-gray-700">{{ $product->name }}</div>
                                             </div>

@@ -14,6 +14,23 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Products_tableの定義
+    protected $fillable = [
+        'shop_id',
+        'name',
+        'information',
+        'price',
+        'is_selling',
+        'sort_order',
+        'secondary_category_id',
+        'image1',
+        'image2',
+        'image3',
+        'image4',
+    ];
+
+
+
     /**
     * Prouduct(製品)に関わるshop情報を全て取得
     */
