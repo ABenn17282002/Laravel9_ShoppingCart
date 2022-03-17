@@ -165,17 +165,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -183,7 +172,31 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        // productidの取得
+        $product = Product::findOrFail($id);
+        // 製品数量を合計する
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');
+
+        // shops_tableよりid,nameを取得
+        $shops = Shop::where('owner_id', Auth::id())
+        ->select('id', 'name')
+        ->get();
+
+        // Images_tableよりid,title,filenameを更新順に取得
+        $images = Image::where('owner_id', Auth::id())
+        ->select('id','title','filename')
+        ->orderBy('updated_at','desc')
+        ->get();
+
+        // withを用いて、関連するsecondaryも一緒に取得する.
+        $categories = PrimaryCategory::with('secondary')
+        ->get();
+
+        // 上記変数をowner/products/edit.blade.phpに渡す
+        return \view('owner.products.edit',
+        \compact('product', 'quantity', 'shops',
+        'images', 'categories'));
     }
 
     /**
