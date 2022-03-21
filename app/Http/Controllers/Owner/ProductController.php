@@ -214,7 +214,61 @@ class ProductController extends Controller
             return redirect()->route('owner.products.edit', ['product' => $id])
             ->with('alert','在庫数が変更されています。再度確認してください');
 
-        }else {
+        }else{
+            // そうでなければ製品情報と在庫情報同時更新
+            // トランザクション
+            try{
+                DB::transaction(function () use($request, $product) {
+
+                    /* 製品情報更新処理  */
+                    // idを元に取得したProduct情報から商品名等を取得
+                    $product->name = $request->name;
+                    $product->information = $request->information;
+                    $product->price = $request->price;
+                    $product->sort_order = $request->sort_order;
+                    $product->shop_id = $request->shop_id;
+                    $product->secondary_category_id = $request->category;
+                    $product->image1 = $request->image1;
+                    $product->image2 = $request->image2;
+                    $product->image3 = $request->image3;
+                    $product->image4 = $request->image4;
+                    $product->is_selling = $request->is_selling;
+
+                    // 情報を保存(Createがないため必要)
+                    $product->save();
+
+                    // 在庫追加処理
+                    if($request->type === '1')
+                    {
+                        $newQuantity = $request->quantity;
+                    }
+                    // 在庫削減処理の場合(-1)
+                    if($request->type === '2')
+                    {
+                        $newQuantity = $request->quantity * -1;
+                    }
+
+                    /* 在庫情報更新処理 */
+                    Stock::create([
+                        // id=product情報より取得
+                        'product_id' => $product->id,
+                        // type:$request->typeより取得
+                        'type' => $request->type,
+                        // 数量：newQuantityより取得
+                        'quantity' => $newQuantity
+                    ]);
+
+                }, 2);
+
+            }catch(Throwable $e){
+                Log::error($e);
+                throw $e;
+            }
+
+            // redirect to owner/products/index.blade.php+ flassmessage
+            return redirect()
+            ->route('owner.products.index')
+            ->with('info','商品情報を更新しました。');
 
         }
     }
