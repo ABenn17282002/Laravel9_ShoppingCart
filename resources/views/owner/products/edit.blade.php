@@ -12,9 +12,13 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     {{-- Error_message --}}
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                    {{-- 商品登録用フォーム --}}
+                    {{-- flassmessageの表示 --}}
+                    <x-flash-message/>
+                    {{-- 編集用フォーム --}}
                     <form method="post" action="{{ route('owner.products.update',['product'=> $product->id ]) }}">
                             @csrf
+                            {{-- 更新処理用 --}}
+                            @method('PUT')
                             <div class="-m-2">
                                 {{-- 商品名 --}}
                                 <div class="p-2 w-1/2 mx-auto">

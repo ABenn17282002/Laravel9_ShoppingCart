@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Owner;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Shop;
+use App\Models\Owner;
 // 認証モデルの使用
-use Illuminate\Support\Facades\Auth;
+use App\Models\Stock;
 // DBFacadeの使用
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 // Image,Product,Owner,productsモデルの使用
 Use App\Models\Image;
-use App\Models\Product;
-use App\Models\Owner;
-// PrimaryCategoryに修正
+use Illuminate\Http\Request;
 use App\Models\PrimaryCategory;
+// PrimaryCategoryに修正
+use Illuminate\Support\Facades\DB;
 // shopモデルの使用を追加
-use App\Models\Shop;
+use App\Http\Controllers\Controller;
 // Stockモデルの使用
-use App\Models\Stock;
+use Illuminate\Support\Facades\Auth;
+// productRequestクラスの使用
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -100,24 +102,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         // dd($request);
-        // validation
-        $request->validate([
-            'name' => ['required', 'string', 'max:50'],
-            'information' => ['required', 'string', 'max:1000'],
-            'price' => ['required', 'integer'],
-            'quantity' => ['required', 'integer'],
-            'shop_id' => ['required', 'exists:shops,id'],
-            'category' => ['required', 'exists:secondary_categories,id'],
-            'image1' => ['nullable', 'exists:images,id'],
-            'image2' => ['nullable', 'exists:images,id'],
-            'image3' => ['nullable', 'exists:images,id'],
-            'image4' => ['nullable', 'exists:images,id'],
-            'is_selling' => ['required']
-        ]);
-
 
         // try catch構文
         try {
@@ -202,13 +189,34 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ProductRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        // validatation
+        $request->validate([
+            'current_quantity' => ['required', 'integer'],
+        ]);
+
+        // productidの取得
+        $product = Product::findOrFail($id);
+        // 製品数量を合計する
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');
+
+        // 画面表示上の在庫数と違っている場合
+        if($request->current_quantity !== $quantity){
+            // ルートパラメータの取得
+            $id = $request->route()->parameter('product');
+            // redirect to owner/products/edit.blade.php+ flassmessage
+            return redirect()->route('owner.products.edit', ['product' => $id])
+            ->with('alert','在庫数が変更されています。再度確認してください');
+
+        }else {
+
+        }
     }
 
     /**
