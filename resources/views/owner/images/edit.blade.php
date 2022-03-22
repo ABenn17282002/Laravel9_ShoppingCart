@@ -62,5 +62,5 @@
             document.getElementById('delete_' + e.dataset.id).submit();
             }
         }
-        </script>
+    </script>
 </x-app-layout>
