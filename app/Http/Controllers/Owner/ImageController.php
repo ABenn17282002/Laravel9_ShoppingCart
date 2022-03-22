@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 // Imageと認証モデル
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+// Productクラスの使用
+use App\Models\Product;
 // UploadImageRequestクラス
 use App\Http\Requests\UploadImageRequest;
 // ImageServiceの使用
@@ -151,6 +153,36 @@ class ImageController extends Controller
     {
         // imageIDを取得
         $image = Image::findOrFail($id);
+
+        // 削除したい画像をProductで使っているかの確認
+        $imageInProducts =Product::where('image1', $image->id)
+        ->orWhere('image2', $image->id)
+        ->orWhere('image3', $image->id)
+        ->orWhere('image4', $image->id)
+        ->get();
+
+        // 画像をProduct側で使用の場合、image1-4を確認してnullにする。
+        if($imageInProducts){
+            $imageInProducts->each(function($product) use($image){
+                if($product->image1 === $image->id){
+                    $product->image1 = null;
+                    $product->save();
+                }
+                if($product->image2 === $image->id){
+                    $product->image2 = null;
+                    $product->save();
+                }
+                if($product->image3 === $image->id){
+                    $product->image3 = null;
+                    $product->save();
+                }
+                if($product->image4 === $image->id){
+                    $product->image4 = null;
+                    $product->save();
+                }
+            });
+        }
+
         // file情報取得
         $filePath = 'public/products'. $image->filename;
 
@@ -159,7 +191,7 @@ class ImageController extends Controller
             Storage::delete($filePath);
         }
 
-        // DB情報削除
+        // DB情報削除(←Productで使用中の画像を削除するとエラーが出る！)
         Image::findOrFail($id)->delete();
 
         // redirect owner/images/index.blade.php + flashmessage
