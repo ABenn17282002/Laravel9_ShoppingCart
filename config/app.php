@@ -197,7 +197,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // InterventionImage
-        'InterventionImage' => Intervention\Image\Facades\Image::class
+        'InterventionImage' => Intervention\Image\Facades\Image::class,
+        // 定数化クラスの設定
+        'Constant' => App\Constants\Common::class
     ])->toArray(),
 
 ];
