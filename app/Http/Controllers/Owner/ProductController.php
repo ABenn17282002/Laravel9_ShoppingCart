@@ -281,6 +281,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // DB情報削除
+        Product::findOrFail($id)->delete();
+
+        // redirect owner/products/index.blade.php + flashmessage
+        return redirect()
+        ->route('owner.products.index')
+        ->with('alert','商品を削除しました');;
     }
 }
