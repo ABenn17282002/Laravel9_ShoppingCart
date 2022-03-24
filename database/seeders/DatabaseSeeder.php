@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             // ProductSeeder::class,
             // Stockクラスの追加
             // StockSeeder::class,
+
+            // Userクラスの追加
+            UserSeeder::class
         ]);
     }
 }
