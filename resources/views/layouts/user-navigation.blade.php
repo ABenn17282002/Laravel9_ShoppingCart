@@ -5,10 +5,12 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    {{-- user用に編集 --}}
-                    <a href="{{ route('user.dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
-                    </a>
+                    <div class="w-12">
+                        {{-- user用に編集 --}}
+                        <a href="{{ route('user.dashboard') }}">
+                            <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Navigation Links -->
