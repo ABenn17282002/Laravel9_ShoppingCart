@@ -28,10 +28,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// web.phpからの引用+Ownersモデル
-Route::get('/', function () {
-    return view('owner.welcome');
-});
+// Route::get('/', function () {
+//     return view('owner.welcome');
+// });
 
 // 店舗情報、編集・更新画面
 Route::prefix('shops')->
@@ -53,14 +52,14 @@ Route::get('/dashboard', function () {
     return view('owner.dashboard');
 })->middleware(['auth:owners'])->name('dashboard');
 
+// Route::get('/register', [RegisteredUserController::class, 'create'])
+//                 ->middleware('guest')
+//                 ->name('register');
+
+// Route::post('/register', [RegisteredUserController::class, 'store'])
+//                 ->middleware('guest');
+
 // auth.phpの引用+ownersモデル
-Route::get('/register', [RegisteredUserController::class, 'create'])
-                ->middleware('guest')
-                ->name('register');
-
-Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest');
-
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
                 ->middleware('guest')
                 ->name('login');
