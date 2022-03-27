@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+// Product,Stockモデルの使用
+use App\Models\Product;
+use App\Models\Stock;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,5 +35,8 @@ class DatabaseSeeder extends Seeder
             // Userクラスの追加
             UserSeeder::class
         ]);
+        // 関連付けがないとエラーになるため必須
+        Product::factory(100)->create();
+        Stock::factory(100)->create();
     }
 }
