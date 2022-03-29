@@ -25,13 +25,13 @@ Route::get('/', function () {
     return view('user.welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('user.dashboard');
-// })->middleware(['auth:users'])->name('dashboard');
 
-// 商品一覧ページ用ルート
+/* User用ルート設定*/
 Route::middleware('auth:users')->group(function(){
+    // 商品一覧ページ用ルート
     Route::get('/', [ItemController::class, 'index'])->name('items.index');
+    // 商品詳細ページ用ルート
+    Route::get('show/{item}', [ItemController::class, 'show'])->name('items.show');
 });
 
 // ComponentTespage表示

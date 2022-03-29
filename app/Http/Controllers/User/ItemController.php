@@ -11,6 +11,13 @@ use App\Http\Controllers\Controller;
 
 class ItemController extends Controller
 {
+    /* コンストラクタの設定 */
+    public function __construct()
+    {
+        $this->middleware('auth:users');
+    }
+
+
     // indexページの表示
     public function index()
     {
@@ -54,5 +61,14 @@ class ItemController extends Controller
 
 
         return view('user.index',\compact('products'));
+    }
+
+    // 商品詳細ページ
+    public function show($id)
+    {
+        // 製品IDがあれば情報取得,ない場合Not Found
+        $product = Product::findorFail($id);
+
+        return \view('user.show',\compact('product'));
     }
 }
