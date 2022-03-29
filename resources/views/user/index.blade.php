@@ -13,7 +13,8 @@
 
                         @foreach($products as $product)
                             <div class="w-1/4 p-2 md:p-4">
-                                <a href="">
+                                {{-- 製品IDを取得して、詳細ページへ　 --}}
+                                <a href="{{ route('user.items.show', ['item' => $product->id ])}}">
                                         {{-- 画像が表示されなかったため一旦再修正 --}}
                                         <x-thumbnail filename="{{ $product->filename ?? ''}}" type="products" />
                                         {{-- 引用元:https://tailblocks.cc/ [Ecommerce] --}}
