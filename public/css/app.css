@@ -703,14 +703,11 @@ select {
 .ml-4 {
   margin-left: 1rem;
 }
-.ml-6 {
-  margin-left: 1.5rem;
+.ml-auto {
+  margin-left: auto;
 }
 .mr-3 {
   margin-right: 0.75rem;
-}
-.ml-auto {
-  margin-left: auto;
 }
 .mr-2 {
   margin-right: 0.5rem;
@@ -1529,6 +1526,11 @@ select {
   .micromodal-slide .modal__overlay {
     will-change: transform;
   }
+/* swiper.js用CSS */
+.swiper {
+    /* width: 600px; */
+    height: 300px;
+}
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
