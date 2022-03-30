@@ -12,7 +12,24 @@
                     <div class="md:flex md:justify-around">
                         {{-- 商品画像 --}}
                         <div class="md:w-1/2">
-                            <x-thumbnail filename="{{$product->imageFirst->filename ?? ''}}" type="products" />
+                            {{-- <x-thumbnail filename="{{$product->imageFirst->filename ?? ''}}" type="products" /> --}}
+                             <!-- Slider main container -->
+                            <div class="swiper">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper">
+                                    <!-- Slides -->
+                                    <div class="swiper-slide"><img src="{{ asset('storage/products/sample4.jpg') }}"></div>
+                                    <div class="swiper-slide"><img src="{{ asset('storage/products/sample5.jpg') }}"></div>
+                                    <div class="swiper-slide"><img src="{{ asset('storage/products/sample6.jpg') }}"></div>
+                                </div>
+                                <!-- If we need pagination -->
+                                <div class="swiper-pagination"></div>
+                                <!-- If we need navigation buttons -->
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                                <!-- If we need scrollbar -->
+                                <div class="swiper-scrollbar"></div>
+                            </div>
                         </div>
                         <div class="md:w-1/2 ml-4">
                             {{-- 商品カテゴリー --}}
@@ -47,5 +64,6 @@
             </div>
         </div>
     </div>
+    <script src="{{ mix('js/swiper.js')}}"></script>
 </x-app-layout>
 
