@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 // Productクラスの使用
 use App\Models\Product;
+// Stockクラスの使用
+use App\Models\Stock;
 // DB Facades使用
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -68,7 +70,15 @@ class ItemController extends Controller
     {
         // 製品IDがあれば情報取得,ない場合Not Found
         $product = Product::findorFail($id);
+        // 在庫数量の取得
+        $quantity = Stock::where('product_id', $product->id)
+        ->sum('quantity');
 
-        return \view('user.show',\compact('product'));
+        // 数量の最大値を9に設定
+        if($quantity > 9){
+            $quantity =9;
+        }
+
+        return \view('user.show',\compact('product','quantity'));
     }
 }
