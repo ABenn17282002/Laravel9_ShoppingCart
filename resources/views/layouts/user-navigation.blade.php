@@ -19,6 +19,10 @@
                     <x-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
                         {{ __('ホーム') }}
                     </x-nav-link>
+                    {{-- cart用リンク --}}
+                    <x-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                        カートを表示
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -71,6 +75,10 @@
             {{--  dashboad→user.items.index --}}
             <x-responsive-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
                 {{ __('ホーム') }}
+            </x-responsive-nav-link>
+            {{-- カート表示用リンク --}}
+            <x-responsive-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                カートを表示
             </x-responsive-nav-link>
         </div>
 

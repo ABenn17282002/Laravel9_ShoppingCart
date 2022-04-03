@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 // ComponentTESTpage表示のためのクラス追加
 use App\Http\Controllers\ComponentTestController;
-// ServiceContainer表示用クラス追加
+// ServiceContainerクラスの追加
 use App\Http\Controllers\LifeCycleTestController;
 use GuzzleHttp\Middleware;
-// ItemController表示用クラスの追加
+// ItemControllerクラスの追加
 use App\Http\Controllers\User\ItemController;
-
+// CartControllerクラスの追加
+use App\Http\Controllers\User\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,15 @@ Route::middleware('auth:users')->group(function(){
     Route::get('/', [ItemController::class, 'index'])->name('items.index');
     // 商品詳細ページ用ルート
     Route::get('show/{item}', [ItemController::class, 'show'])->name('items.show');
+});
+
+/* Cart用ルート設定 */
+Route::prefix('cart')->
+    middleware('auth:users')->group(function(){
+        // cart情報表示
+        Route::get('/', [CartController::class, 'index'])->name('cart.index');
+        // Cart追加
+        Route::post('add', [CartController::class, 'add'])->name('cart.add');
 });
 
 // ComponentTespage表示

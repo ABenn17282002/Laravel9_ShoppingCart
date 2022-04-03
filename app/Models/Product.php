@@ -6,6 +6,8 @@ namespace App\Models;
 use App\Models\Shop;
 // stockモデルの使用
 use App\Models\Stock;
+//  Userモデルの使用
+use App\Models\User;
 use App\Models\SecondaryCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -75,11 +77,21 @@ class Product extends Model
     }
 
     /**
-    * Prouduct(製品)に関わるStoc情報を全て取得
+    * Prouduct(製品)に関わるStock情報を全て取得
     * 1対多モデル
     */
     public function stock()
     {
         return $this->hasMany(Stock::class);
+    }
+
+    /**
+    * Prouduct(製品)に関わるcarts情報を全て取得
+    * 1対多モデル
+    */
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'carts')
+        ->withPivot(['id', 'quantity']);
     }
 }
