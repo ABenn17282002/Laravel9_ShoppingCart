@@ -701,6 +701,9 @@ select {
 .-mr-2 {
   margin-right: -0.5rem;
 }
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -1834,12 +1837,28 @@ select {
     margin-bottom: 1.5rem;
   }
 
+  .md\:ml-2 {
+    margin-left: 0.5rem;
+  }
+
   .md\:flex {
     display: flex;
   }
 
   .md\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+
+  .md\:w-4\/12 {
+    width: 33.333333%;
+  }
+
+  .md\:w-2\/12 {
+    width: 16.666667%;
   }
 
   .md\:w-1\/2 {
@@ -1852,6 +1871,10 @@ select {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:items-center {
+    align-items: center;
   }
 
   .md\:justify-around {
