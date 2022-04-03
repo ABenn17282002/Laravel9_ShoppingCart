@@ -61,4 +61,43 @@ class CartController extends Controller
         // user.indexにリダイレクト
         return redirect()->route('user.cart.index');
     }
+
+    // Cartの削除
+    public function delete($id)
+    {
+        // Cart内の選択したproduct_idを削除
+        Cart::where('product_id',$id)
+        ->where('user_id',Auth::id())
+        ->delete();
+
+        // cart/indexにリダイレクト
+        return redirect()->route('user.cart.index');
+    }
+
+    // Cart決済処理
+    public function checkout()
+    {
+        // Userの取得
+        $user = User::findOrFail(Auth::id());
+        // 製品の取得
+        $products = $user->products;
+
+        // 製品リスト
+        $lineItems = [];
+
+        foreach($products as $product)
+        {
+            // StripeAPIドキュメント(Create)
+            $lineItem = [
+                'name' => $product->name,
+                'description' => $product->information,
+                'amount' => $product->price,
+                'currency' => 'jpy',
+                'quantity' => $product->pivot->quantity,
+            ];
+            array_push($lineItems, $lineItem);
+        }
+
+        dd($lineItems);
+    }
 }

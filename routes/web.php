@@ -42,6 +42,10 @@ Route::prefix('cart')->
         Route::get('/', [CartController::class, 'index'])->name('cart.index');
         // Cart追加
         Route::post('add', [CartController::class, 'add'])->name('cart.add');
+        // Cartの削除
+        Route::post('delete/{item}', [CartController::class, 'delete'])->name('cart.delete');
+        // Stripe決済処理
+        Route::get('checkout', [CartController::class,'checkout'])->name('cart.checkout');
 });
 
 // ComponentTespage表示
