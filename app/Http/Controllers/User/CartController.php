@@ -98,6 +98,32 @@ class CartController extends Controller
             array_push($lineItems, $lineItem);
         }
 
-        dd($lineItems);
+        // dd($lineItems);
+
+        /*<Stripeへ渡すSession情報>
+        https://stripe.com/docs/checkout/integration-builder*/
+
+        // Stripe_SECRET_KEYの読み込み
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        // Sessionの生成(渡す情報、mode,checkout成功時・キャンセル時のredirect情報)
+        $checkout_session = \Stripe\Checkout\Session::create([
+            'line_items' => [[
+                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+                'line_items' => [$lineItems],
+            ]],
+                // mode
+                'mode' => 'payment',
+                // checkout成功時のリダイレクト
+                'success_url' => route('user.cart.success'),
+                // checkoutキャンセル時のリダイレクト
+                'cancel_url' => route('user.cart.cancel'),
+            ]);
+
+            // Stripe_PUBLIC_KEYの読み込み
+            $publicKey = env('STRIPE_PUBLIC_KEY');
+
+            // checkout(session,publickey)
+            return view('user.checkout',compact('checkout_session', 'publicKey'));
     }
 }
