@@ -2,14 +2,37 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// Cart・認証モデルの追加
+use App\Http\Controllers\Controller;
+// Cartモデルの追加
 use App\Models\Cart;
+// Userモデルの追加
+use App\Models\User;
+// 認証モデルの追加
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    // indexPage用メソッド
+    public function index()
+    {
+        // userの取得
+        $user = User::findOrFail(Auth::id());
+        // user⇔productとの多対多リレーション
+        $products = $user->products;
+        // 総額表示
+        $totalPrice = 0;
+
+        // 製品を1つずつ取得
+        foreach($products as $product){
+            // 製品の価格 * 中間テーブルの数量の数
+            $totalPrice += $product->price * $product->pivot->quantity;
+        }
+
+        dd($products, $totalPrice);
+    }
+
+
     // 商品追加のためのメソッド
     public function add(Request $request)
     {
@@ -31,6 +54,8 @@ class CartController extends Controller
             ]);
         }
 
-        dd('Test');
+        // dd('Test');
+        // user.indexにリダイレクト
+        return redirect()->route('user.cart.index');
     }
 }
