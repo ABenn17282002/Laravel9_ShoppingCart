@@ -121,7 +121,7 @@ class CartController extends Controller
             ]);
         }
 
-        dd("TEST");
+        // dd("TEST");
 
         /*<Stripeへ渡すSession情報>
         https://stripe.com/docs/checkout/integration-builder*/
@@ -131,22 +131,55 @@ class CartController extends Controller
 
         // Sessionの生成(渡す情報、mode,checkout成功時・キャンセル時のredirect情報)
         $checkout_session = \Stripe\Checkout\Session::create([
-            'line_items' => [[
-                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                'line_items' => [$lineItems],
-            ]],
-                // mode
-                'mode' => 'payment',
-                // checkout成功時のリダイレクト
-                'success_url' => route('user.cart.success'),
-                // checkoutキャンセル時のリダイレクト
-                'cancel_url' => route('user.cart.cancel'),
+            // 決済情報をカードに指定
+            'payment_method_types' => ['card'],
+            // 商品情報
+            'line_items' => [$lineItems],
+            // mode
+            'mode' => 'payment',
+            // checkout成功時のリダイレクト
+            'success_url' => route('user.cart.success'),
+            // checkoutキャンセル時のリダイレクト
+            'cancel_url' => route('user.cart.cancel'),
             ]);
 
-            // Stripe_PUBLIC_KEYの読み込み
-            $publicKey = env('STRIPE_PUBLIC_KEY');
+            /* Stripeマニュアル変更(1)
+            Stripe_PUBLIC_KEYの読み込み不要 */
+            // $publicKey = env('STRIPE_PUBLIC_KEY');
 
-            // checkout(session,publickey)
-            return view('user.checkout',compact('checkout_session', 'publicKey'));
+            /* Stripeマニュアル変更(2)
+            Stripeの決済画面へ直接リダイレクトするので不要 */
+            // return view('user.checkout',compact('checkout_session', 'publicKey'));
+
+            /* Stripeマニュアル変更(3)
+            Stripeの決済画面に直接リダイレクトさせるコードを追加 */
+            return redirect($checkout_session ->url, 303);
+    }
+
+    // Stripe成功時の処理
+    public function success()
+    {
+        // カートを0にする
+        Cart::where('user_id', Auth::id())->delete();
+        // user/itmes/indexにredirectする
+        return redirect()->route('user.items.index');
+    }
+
+    // Stripe決済失敗時の処理
+    public function cancel()
+    {
+        // UserIDを取得
+        $user = User::findOrFail(Auth::id());
+
+        // 在庫を元に戻す
+        foreach($user->products as $product){
+            Stock::create([
+                'product_id' => $product->id,
+                'type' => \Constant::PRODUCT_LIST['add'],
+                'quantity' => $product->pivot->quantity
+            ]);
+        }
+        // cart.blade.phpにリダイレクト
+        return redirect()->route('user.cart.index');
     }
 }
