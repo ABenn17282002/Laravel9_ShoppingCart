@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 // Userモデルの追加
 use App\Models\User;
+// Stockモデルの追加
+use App\Models\Stock;
 // 認証モデルの追加
 use Illuminate\Support\Facades\Auth;
 
@@ -87,18 +89,39 @@ class CartController extends Controller
 
         foreach($products as $product)
         {
-            // StripeAPIドキュメント(Create)
-            $lineItem = [
-                'name' => $product->name,
-                'description' => $product->information,
-                'amount' => $product->price,
-                'currency' => 'jpy',
-                'quantity' => $product->pivot->quantity,
-            ];
-            array_push($lineItems, $lineItem);
+            /* 決済前に在庫確認 */
+            $quantity="";
+            $quantity =Stock::where('product_id', $product->id)
+            ->sum('quantity');
+
+            // Cart内の数量が在庫数より多いかどうか
+            if($product->pivot->quantity > $quantity){
+                // 多い場合:indexにリダイレクト処理
+                return redirect()->route('user.cart.index');
+            }else {
+                // そうでなければ決済処理
+                // StripeAPIドキュメント(Create)
+                $lineItem = [
+                    'name' => $product->name,
+                    'description' => $product->information,
+                    'amount' => $product->price,
+                    'currency' => 'jpy',
+                    'quantity' => $product->pivot->quantity,
+                ];
+                array_push($lineItems, $lineItem);
+            }
         }
 
-        // dd($lineItems);
+        // 在庫数量を減らす
+        foreach($products as $product){
+            Stock::create([
+                'product_id' => $product->id,
+                'type' => \Constant::PRODUCT_LIST['reduce'],
+                'quantity' => $product->pivot->quantity * -1
+            ]);
+        }
+
+        dd("TEST");
 
         /*<Stripeへ渡すSession情報>
         https://stripe.com/docs/checkout/integration-builder*/
