@@ -2,6 +2,7 @@
 ## インストール方法
 
 ## インストール後の実施事項
+### 1.商品画像と店舗画像について
 商品画像と店舗画像はpublic/imagesフォルダ内に下記のように<br>
 それぞれ保存しております。
 
@@ -53,3 +54,11 @@ Seeding: Database\Seeders\AdminSeeder
 Seeded:  Database\Seeders\ImageSeeder (5.87ms)
 Database seeding completed successfully.
 ```
+
+### 2. StripeAPIの使用方法について
+StripeAPIを使用するには、[Stripe](https://stripe.com/jp)にアクセスし会員登録を行い、<br>
+左上の「アカウント」作成よりアカウント情報を作成する必要性があります。<br>
+詳細は以下を参照にしてください。<br>
+
+■ Stripeアカウントの作り方<br>
+[決済サービス「Stripe」のアカウント作成〜サブスクリプションの設定まとめ](https://macareux.co.jp/blog/stripe-subsctiption)

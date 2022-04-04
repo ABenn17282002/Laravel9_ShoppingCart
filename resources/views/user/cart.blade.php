@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     {{-- カートに商品があるか --}}
                     @if (count($products) > 0)
-                        {{--　あれば一つずつ取得する  --}}
+                        {{-- あれば一つずつ取得する  --}}
                         @foreach ($products as $product )
                             <div class="md:flex md:items-center mb-2">
                                 <div class="md:w-3/12">
@@ -42,8 +42,16 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{-- 総額表示 --}}
-                        合計金額: {{ number_format($totalPrice) }}<span class="text-sm text-gray-700">円(税込)</span>
+                            <div class="my-2">
+                                小計: {{ number_format($totalPrice)}}<span class="text-sm
+                                text-gray-700">円(税込)</span>
+                            </div>
+                            <div>
+                                <button onclick="location.href='{{ route('user.cart.checkout')}}'"
+                                class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                    購入する
+                                </button>
+                            </div>
                     @else
                         カートに商品が入っていません。
                     @endif

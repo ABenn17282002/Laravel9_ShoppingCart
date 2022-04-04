@@ -46,6 +46,10 @@ Route::prefix('cart')->
         Route::post('delete/{item}', [CartController::class, 'delete'])->name('cart.delete');
         // Stripe決済処理
         Route::get('checkout', [CartController::class,'checkout'])->name('cart.checkout');
+        // Stripe決済成功時の処理
+        Route::get('success', [CartController::class, 'success'])->name('cart.success');
+        // Stripe決済失敗時の処理
+        Route::get('cancel', [CartController::class, 'cancel'])->name('cart.cancel');
 });
 
 // ComponentTespage表示
