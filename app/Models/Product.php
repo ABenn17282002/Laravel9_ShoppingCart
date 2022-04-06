@@ -33,8 +33,6 @@ class Product extends Model
         'image4',
     ];
 
-
-
     /**
     * Prouduct(製品)に関わるshop情報を全て取得
     */
@@ -98,11 +96,11 @@ class Product extends Model
     }
 
     /**
-     * 商品在庫が1以上のものを表示するクエリスコープを設定
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+    * 商品在庫が1以上のものを表示するクエリスコープを設定
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
     public function scopeAvailableItems($query)
     {
         /* 商品在庫数が1以上のもの */
@@ -138,5 +136,39 @@ class Product extends Model
             ,'products.sort_order as sort_order'
             ,'products.information', 'secondary_categories.name as category'
             ,'image1.filename as filename');
+    }
+
+    /**
+    * 表示順クエリスコープを設定
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query $sortOrder
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeSortOrder($query, $sortOrder)
+    {
+        // sort_orderがnull and sortorder = 0の場合:並び順を昇順表示
+        if($sortOrder === null || $sortOrder === \Constant::SORT_ORDER['recommend']){
+            return $query->orderBy('sort_order', 'asc') ;
+        }
+
+        // sortorder = 1の場合:価格を降順表示
+        if($sortOrder === \Constant::SORT_ORDER['higherPrice']){
+            return $query->orderBy('price', 'desc') ;
+        }
+
+        // sortorder = 2の場合:価格を昇順表示
+        if($sortOrder === \Constant::SORT_ORDER['lowerPrice']){
+            return $query->orderBy('price', 'asc') ;
+        }
+
+        // sortorder = 3の場合:作成日を降順表示
+        if($sortOrder === \Constant::SORT_ORDER['later']){
+            return $query->orderBy('products.created_at', 'desc') ;
+        }
+
+        // sortorder = 4の場合:作成日を昇順表示
+        if($sortOrder === \Constant::SORT_ORDER['older']){
+            return $query->orderBy('products.created_at', 'asc') ;
+        }
     }
 }

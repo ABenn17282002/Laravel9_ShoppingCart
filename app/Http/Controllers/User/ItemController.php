@@ -38,11 +38,13 @@ class ItemController extends Controller
     }
 
 
-    // indexページの表示
-    public function index()
+    // indexページの表示(引数:Request $request)
+    public function index(Request $request)
     {
-        // LocalScopeを利用して、商品情報を取得
-        $products = Product::availableItems()->get();
+        // LocalScopeを利用して、商品情報の表示順を取得
+        $products = Product::availableItems()
+        ->sortOrder($request->sort)
+        ->get();
 
         return view('user.index',\compact('products'));
     }
