@@ -44,7 +44,8 @@ class ItemController extends Controller
         // LocalScopeを利用して、商品情報の表示順を取得
         $products = Product::availableItems()
         ->sortOrder($request->sort)
-        ->get();
+        // Pagination(初期設定:20件)
+        ->paginate($request->pagination ?? '20');
 
         return view('user.index',\compact('products'));
     }
