@@ -43,14 +43,17 @@ class ItemController extends Controller
     // indexページの表示(引数:Request $request)
     public function index(Request $request)
     {
-        dd($request);
+        // dd($request);
 
         // withを用いて、関連するsecondaryも一緒に取得する.
         $categories = PrimaryCategory::with('secondary')
         ->get();
 
-        // LocalScopeを利用して、商品情報の表示順を取得
+        /* LocalScope */
         $products = Product::availableItems()
+        // カテゴリー検索
+        ->selectCategory($request->category ?? '0')
+        // 商品情報の表示順を取得
         ->sortOrder($request->sort)
         // Pagination(初期設定:20件)
         ->paginate($request->pagination ?? '20');

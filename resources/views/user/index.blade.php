@@ -8,11 +8,14 @@
                 <div class="lg:flex items-center">
                     {{-- カテゴリー検索 --}}
                     <select name="category" class="mb-2 lg:mb-0 lg:mr-2">
-                        <option value="0">全て</option>
+                        {{-- 全てを選択した場合 --}}
+                        <option value="0" @if(\Request::get('category') === '0') selected
+                        @endif>全て</option>
                         {{-- owner/create.blade.phpのカテゴリーの定義 --}}
                         @foreach($categories as $category)
                             <optgroup label="{{ $category->name }}">
                                 @foreach($category->secondary as $secondary)
+                                {{-- カテゴリを検索した場合 --}}
                                     <option value="{{ $secondary->id}}" @if(\Request::get('category') == $secondary->id) selected @endif >
                                         {{ $secondary->name }}
                                     </option>

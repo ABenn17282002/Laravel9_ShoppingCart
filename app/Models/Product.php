@@ -171,4 +171,21 @@ class Product extends Model
             return $query->orderBy('products.created_at', 'asc') ;
         }
     }
+
+
+    /**
+    * カテゴリー検索クエリーを設定
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query $categoryId
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeSelectCategory($query, $categoryId)
+    {
+        if($categoryId !== '0'){
+            // 0以外が選択した場合:カテゴリーを選択
+            return $query->where('secondary_category_id', $categoryId);
+        } else {
+            return;
+        }
+    }
 }
