@@ -171,4 +171,48 @@ class Product extends Model
             return $query->orderBy('products.created_at', 'asc') ;
         }
     }
+
+
+    /**
+    * カテゴリー検索クエリーを設定
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query $categoryId
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeSelectCategory($query, $categoryId)
+    {
+        if($categoryId !== '0'){
+            // 0以外が選択した場合:カテゴリーを選択
+            return $query->where('secondary_category_id', $categoryId);
+        } else {
+            return;
+        }
+    }
+
+    /**
+    * キーワードを検索するクエリーを設定
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query $keyword
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeSearchKeyword($query, $keyword)
+    {
+        // 検索ワードがある場合
+        if(!is_null($keyword)){
+            // 全角スペースを半角に変換
+            $spaceConvert =mb_convert_kana($keyword,'s');
+            // 空白で区切る
+            $keywords =\preg_split('/[\s]+/', $spaceConvert,-1,PREG_SPLIT_NO_EMPTY);
+            // 単語をループで回す
+            foreach($keywords as $word)
+            {
+                $query->where('products.name','like','%'.$word.'%');
+            }
+            // dd($query);
+            return $query;
+
+        } else {
+            return;
+        }
+    }
 }

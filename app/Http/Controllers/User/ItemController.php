@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 // Stockクラスの使用
 use App\Models\Stock;
+// PrimaryCategoryクラスの使用
+use App\Models\PrimaryCategory;
 // DB Facades使用
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -41,13 +43,24 @@ class ItemController extends Controller
     // indexページの表示(引数:Request $request)
     public function index(Request $request)
     {
-        // LocalScopeを利用して、商品情報の表示順を取得
+        // dd($request);
+
+        // withを用いて、関連するsecondaryも一緒に取得する.
+        $categories = PrimaryCategory::with('secondary')
+        ->get();
+
+        /* LocalScope */
         $products = Product::availableItems()
+        // カテゴリー検索
+        ->selectCategory($request->category ?? '0')
+        // キーワード検索
+        -> searchKeyword($request->keyword)
+        // 商品情報の表示順を取得
         ->sortOrder($request->sort)
         // Pagination(初期設定:20件)
         ->paginate($request->pagination ?? '20');
 
-        return view('user.index',\compact('products'));
+        return view('user.index',\compact('products','categories'));
     }
 
     // 商品詳細ページ
