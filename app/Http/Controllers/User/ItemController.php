@@ -53,6 +53,8 @@ class ItemController extends Controller
         $products = Product::availableItems()
         // カテゴリー検索
         ->selectCategory($request->category ?? '0')
+        // キーワード検索
+        -> searchKeyword($request->keyword)
         // 商品情報の表示順を取得
         ->sortOrder($request->sort)
         // Pagination(初期設定:20件)
