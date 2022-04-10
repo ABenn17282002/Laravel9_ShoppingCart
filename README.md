@@ -62,3 +62,14 @@ StripeAPIを使用するには、[Stripe](https://stripe.com/jp)にアクセス�
 
 ■ Stripeアカウントの作り方<br>
 [決済サービス「Stripe」のアカウント作成〜サブスクリプションの設定まとめ](https://macareux.co.jp/blog/stripe-subsctiption)
+
+
+### 3. テストメールの設定方法
+XAMPP、MAMPPとDocker上では、テストメール送信方法が異なります。<br>
+詳細は以下を参照にしてください。<br>
+
+■ XAMPP,MAMPPでのテストメール設定方法<br>
+[MailTrapのダミーのSMTPサーバ使ってテストメール送信](https://reffect.co.jp/laravel/mailtrap-dummy-smtp-server)<br>
+
+■ Dockerでのテストメール設定方法<br>
+[Docker+LaravelでMailhogを使う](https://qiita.com/munimuni/items/b902f2c3ec643ed78e4a)<br>
