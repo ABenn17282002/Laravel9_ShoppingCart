@@ -12,6 +12,9 @@ use App\Models\PrimaryCategory;
 // DB Facades使用
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+// メール送信用クラスの使用
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 class ItemController extends Controller
 {
@@ -44,6 +47,9 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         // dd($request);
+
+        Mail::to('test@example.com') // 受信者の指定
+        ->send(new TestMail());      // Mailableクラス
 
         // withを用いて、関連するsecondaryも一緒に取得する.
         $categories = PrimaryCategory::with('secondary')
