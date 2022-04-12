@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\Stock;
 // 認証モデルの追加
 use Illuminate\Support\Facades\Auth;
+// カートサービスプロバイダーの利用
+use App\Services\CartService;
 
 class CartController extends Controller
 {
@@ -79,6 +81,14 @@ class CartController extends Controller
     // Cart決済処理
     public function checkout()
     {
+
+        ///
+        // userの取得
+        $items = Cart::where('user_id', Auth::id())->get();
+        // loginuserがカートに保持している商品情報
+        $products = CartService::getItemsInCart($items);
+        ///
+
         // Userの取得
         $user = User::findOrFail(Auth::id());
         // 製品の取得
