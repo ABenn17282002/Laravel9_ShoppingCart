@@ -90,6 +90,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex flex-wrap">
 
+                    @if($products->count())
                         @foreach($products as $product)
                             <div class="w-1/4 p-2 md:p-4">
                                 {{-- 製品IDを取得して、詳細ページへ --}}
@@ -115,9 +116,13 @@
                         'pagination'=>\Request::get('pagination'),
                     ])->links()}}
                 </div>
+                @else
+                <p>検索結果が見つかりませんでした。</p>
+                @endif
             </div>
         </div>
     </div>
+
     {{-- Script --}}
     <script>
         // sorttagの取得

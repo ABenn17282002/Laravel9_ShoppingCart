@@ -73,3 +73,25 @@ XAMPP、MAMPPとDocker上では、テストメール送信方法が異なりま�
 
 ■ Dockerでのテストメール設定方法<br>
 [Docker+LaravelでMailhogを使う](https://qiita.com/munimuni/items/b902f2c3ec643ed78e4a)<br>
+
+
+### 4.メールの非同期処理について
+メールの通知処理は非同期処理にて実行しております。<br>
+必ずdocker起動後は、以下のコマンドでQUE:Workerを起動させて下さい。<br>
+
+■ Que:Workerの起動
+```
+~/laravel_project/ShoppingCart$ source ~/.bash_profile
+:~/laravel_project/ShoppingCart$ sail shell
+// Que:Workerコマンド
+sail@********:/var/www/html$ php artisan queue:work
+[2022-04-12 23:10:07][21] Processing: App\Jobs\SendThanksMail
+[2022-04-12 23:10:07][21] Processed:  App\Jobs\SendThanksMail
+```
+
+■ Que:Workerの停止<br>
+※ 停止した場合でもQue:JobはDataBaseに保存されています。
+```
+sail@********:/var/www/html$ php artisan queue:restart
+Broadcasting queue restart signal.
+```
