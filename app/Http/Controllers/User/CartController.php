@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\CartService;
 // 非同期処理用クラス設定
 use App\Jobs\SendThanksMail;
+use App\Jobs\SendOrderedMail;
 
 class CartController extends Controller
 {
@@ -94,6 +95,13 @@ class CartController extends Controller
 
         // メール送信の非同期処理
         SendThanksMail::dispatch($products, $user);
+
+        // ループで商品を一つずつ取得
+        foreach($products as $product)
+        {
+            // 商品のOwner毎にメールを送信
+            SendOrderedMail::dispatch($product, $user);
+        }
         dd('ユーザーメール送信テスト');
         ///
 
