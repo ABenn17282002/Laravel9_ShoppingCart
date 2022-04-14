@@ -85,25 +85,7 @@ class CartController extends Controller
     public function checkout()
     {
 
-        ///
-        // carttable:認証済Userの取得
-        $items = Cart::where('user_id', Auth::id())->get();
-        // login済Userのカート内アイテムを全て取得
-        $products = CartService::getItemsInCart($items);
-        // 認証済USERの取得
-        $user = User::findOrFail(Auth::id());
-
-        // メール送信の非同期処理
-        SendThanksMail::dispatch($products, $user);
-
-        // ループで商品を一つずつ取得
-        foreach($products as $product)
-        {
-            // 商品のOwner毎にメールを送信
-            SendOrderedMail::dispatch($product, $user);
-        }
-        dd('ユーザーメール送信テスト');
-        ///
+        // メール非同期送信処理はsucessメソッド内に移動
 
         // Userの取得
         $user = User::findOrFail(Auth::id());
@@ -185,6 +167,26 @@ class CartController extends Controller
     // Stripe成功時の処理
     public function success()
     {
+        /*---- USER・Ownerメール送信処理--- */
+        // carttable:認証済Userの取得
+        $items = Cart::where('user_id', Auth::id())->get();
+        // login済Userのカート内アイテムを全て取得
+        $products = CartService::getItemsInCart($items);
+        // 認証済USERの取得
+        $user = User::findOrFail(Auth::id());
+
+        // メール送信の非同期処理
+        SendThanksMail::dispatch($products, $user);
+
+        // ループで商品を一つずつ取得
+        foreach($products as $product)
+        {
+            // 商品のOwner毎にメールを送信
+            SendOrderedMail::dispatch($product, $user);
+        }
+        // dd('ユーザーメール送信テスト');
+        /*---------------------------------- */
+
         // カートを0にする
         Cart::where('user_id', Auth::id())->delete();
         // user/itmes/indexにredirectする
