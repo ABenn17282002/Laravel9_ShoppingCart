@@ -55,7 +55,7 @@ class ItemController extends Controller
         // ->send(new TestMail());
 
         // キューにジョブを入れて処理(非同期)
-        SendThanksMail::dispatch();
+        // SendThanksMail::dispatch();
 
         // withを用いて、関連するsecondaryも一緒に取得する.
         $categories = PrimaryCategory::with('secondary')

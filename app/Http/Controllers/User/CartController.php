@@ -14,6 +14,8 @@ use App\Models\Stock;
 use Illuminate\Support\Facades\Auth;
 // カートサービスプロバイダーの利用
 use App\Services\CartService;
+// 非同期処理用クラス設定
+use App\Jobs\SendThanksMail;
 
 class CartController extends Controller
 {
@@ -83,10 +85,16 @@ class CartController extends Controller
     {
 
         ///
-        // userの取得
+        // carttable:認証済Userの取得
         $items = Cart::where('user_id', Auth::id())->get();
-        // loginuserがカートに保持している商品情報
+        // login済Userのカート内アイテムを全て取得
         $products = CartService::getItemsInCart($items);
+        // 認証済USERの取得
+        $user = User::findOrFail(Auth::id());
+
+        // メール送信の非同期処理
+        SendThanksMail::dispatch($products, $user);
+        dd('ユーザーメール送信テスト');
         ///
 
         // Userの取得
