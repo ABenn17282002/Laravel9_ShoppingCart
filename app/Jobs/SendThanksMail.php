@@ -42,5 +42,5 @@ class SendThanksMail implements ShouldQueue
         // user宛に送信
         Mail::to($this->user)
         ->send(new ThanksMail($this->products, $this->user));
-    }
+   }
 }
