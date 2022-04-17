@@ -1,5 +1,86 @@
 ## Laravel9.0_Docker
+このコードは以下Udemyセミナーを参考にDocker上に作成したものです。<br>
+■ [【Laravel】マルチログイン機能を構築し本格的なECサイトをつくってみよう【Breeze/tailwindcss】]
+(https://www.udemy.com/course/laravel-multi-ec/)<br>
+
+## 事前準備
+WindowsとMacで環境が異なります。それぞれ以下を参照にしてください。<br>
+
+(1) docker等のインストール<br>
+・Mac<br>
+■ MacにDocker Desktopインストール<br>
+https://docs.docker.jp/docker-for-mac/install.html#install-and-run-docker-desktop-on-mac
+
+・ Windows<br>
+■ Windows10におけるLaravel Sailの最適な開発環境の作り方（WSL2 on Docker）
+https://zenn.dev/goro/articles/018e05bee92aa1
+
+(2) エイリアスの設定<br>
+[エイリアスの設定](https://qiita.com/print_r_keeeng/items/544d14e4e0eab0508985#%E3%82%A8%E3%82%A4%E3%83%AA%E3%82%A2%E3%82%B9%E8%A8%AD%E5%AE%9A)
 ## インストール方法
+(1) 「main」とある部分から必要なbrachを選択<br>
+
+(2) 「Code」→「DownloadZip」でソースコードをダウンロード<br>
+
+(3)　下記コマンドでsail dockerのダウンロード<br>
+```
+> curl -s https://laravel.build/<アプリ名>| bash
+
+latest: Pulling from laravelsail/php81-composer
+eff15d958d66: Pull complete 
+　：
+Application ready! Build something amazing.
+Sail scaffolding installed successfully.
+```
+(4) 事前にbranchからdownloadしたファイルを解凍し、その中身をコピー<br>
+sail dockerでインストールしたフォルダーにペースト
+
+(5) .envの設定
+.env.exampleを.envに変更し以下の部分を変更してください。<br>
+```
+# DB設定
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1 → mysqlに変更
+DB_PORT=3306
+DB_DATABASE=shoppingcart
+DB_USERNAME=root  → User名に変更
+DB_PASSWORD=　　　 → 任意PW設定
+
+## StripeKeyの設定(インストール後の実施事項参照)
+STRIPE_PUBLIC_KEY=
+STRIPE_SECRET_KEY=
+```
+
+(6) 以下コマンドでdockerの起動<br>
+※ 起動にはInternet環境により異なりますが、20分程かかります。<br>
+```
+// プロジェクトフォルダに移動
+cd projectfolder
+
+// dockerの起動
+./vendor/bin/sail up -d
+```
+
+(7) 以下コマンドでComposerのキャッシュを削除し、<br>
+再インストール
+```
+// Server環境にlogin
+> source ~/.bash_profile
+> sail shell
+// Composer Cashの削除
+sail@*******:/var/www/html$ composer clearcache
+// Composerの再インストール
+sail@*******:/var/www/html$ composer install
+```
+
+(8) `./vendor/bin/sail down`でdockerを停止し、<br>
+`./vendor/bin/sail up -d`でdocker再起動
+
+(9) localhost:8573でブラウザ確認<br>
+login画面が確認出来ればOK！
+
+(10) `php artisan migrate:fresh --seed`で<br>
+MySQL上にtableとデータを作成。
 
 ## インストール後の実施事項
 ### 1.商品画像と店舗画像について
@@ -73,7 +154,6 @@ XAMPP、MAMPPとDocker上では、テストメール送信方法が異なりま�
 
 ■ Dockerでのテストメール設定方法<br>
 [Docker+LaravelでMailhogを使う](https://qiita.com/munimuni/items/b902f2c3ec643ed78e4a)<br>
-
 
 ### 4.メールの非同期処理について
 メールの通知処理は非同期処理にて実行しております。<br>
