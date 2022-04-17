@@ -1,7 +1,6 @@
 ## Laravel9.0_Docker
 このコードは以下Udemyセミナーを参考にDocker上に作成したものです。<br>
-■ [【Laravel】マルチログイン機能を構築し本格的なECサイトをつくってみよう【Breeze/tailwindcss】]
-(https://www.udemy.com/course/laravel-multi-ec/)<br>
+■ [【Laravel】マルチログイン機能を構築し本格的なECサイトをつくってみよう【Breeze/tailwindcss】](https://www.udemy.com/course/laravel-multi-ec/)<br>
 
 ## 事前準備
 WindowsとMacで環境が異なります。それぞれ以下を参照にしてください。<br>
