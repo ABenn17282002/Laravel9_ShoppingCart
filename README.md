@@ -23,7 +23,7 @@ https://zenn.dev/goro/articles/018e05bee92aa1
 
 (3)　下記コマンドでsail dockerのダウンロード<br>
 ```
-> curl -s https://laravel.build/<アプリ名>| bash
+> curl -s "https://laravel.build/example-app" | bash
 
 latest: Pulling from laravelsail/php81-composer
 eff15d958d66: Pull complete 
